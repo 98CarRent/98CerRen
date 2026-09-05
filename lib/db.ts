@@ -249,6 +249,9 @@ function seedTourism() {
 }
 
 function seedCars() {
+  const carCount = (db.prepare("SELECT COUNT(*) AS c FROM cars").get() as { c: number }).c;
+  if (carCount > 0) return; // ไม่ seed ย้อนกลับ (ป้องกันรถ/รูปที่ถูกลบงอกกลับมา)
+
   const cars = [
     {
       brand: "Toyota",
