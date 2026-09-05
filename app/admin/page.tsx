@@ -77,11 +77,11 @@ export default async function AdminDashboard() {
     .all() as (BookingWithCar & { brand: string; model: string })[];
 
   const metrics = [
-    { label: t.dashboard.totalCars, value: `${totalCars}`, icon: "🚗", color: "bg-brand-grad" },
-    { label: t.dashboard.availableCars, value: `${availableCars}`, icon: "✅", color: "from-emerald-500 to-teal-500" },
-    { label: t.dashboard.totalBookings, value: `${totalBookings}`, icon: "📅", color: "from-violet-500 to-purple-500" },
-    { label: t.dashboard.pendingBookings, value: `${pendingBookings}`, icon: "⏳", color: "from-amber-500 to-orange-500" },
-    { label: t.dashboard.revenue, value: `${formatBaht(revenue)}`, icon: "💰", color: "from-rose-500 to-pink-500" },
+    { label: t.dashboard.totalCars, value: `${totalCars}`, icon: "🚗", color: "bg-brand-grad", href: "/admin/cars" },
+    { label: t.dashboard.availableCars, value: `${availableCars}`, icon: "✅", color: "from-emerald-500 to-teal-500", href: "/admin/cars" },
+    { label: t.dashboard.totalBookings, value: `${totalBookings}`, icon: "📅", color: "from-violet-500 to-purple-500", href: "/admin/bookings" },
+    { label: t.dashboard.pendingBookings, value: `${pendingBookings}`, icon: "⏳", color: "from-amber-500 to-orange-500", href: "/admin/bookings" },
+    { label: t.dashboard.revenue, value: `${formatBaht(revenue)}`, icon: "💰", color: "from-rose-500 to-pink-500", href: "/admin/bookings" },
   ];
 
   return (
@@ -105,16 +105,19 @@ export default async function AdminDashboard() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {metrics.map((m) => (
-          <div
+          <Link
             key={m.label}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            href={m.href}
+            className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand hover:shadow-lg"
           >
-            <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${m.color} text-lg text-white shadow`}>
+            <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${m.color} text-lg text-white shadow transition group-hover:scale-110`}>
               {m.icon}
             </span>
             <p className="mt-3 text-2xl font-black text-slate-900">{m.value}</p>
-            <p className="text-xs font-semibold text-slate-500">{m.label}</p>
-          </div>
+            <p className="text-xs font-semibold text-slate-500 group-hover:text-brand-strong">
+              {m.label} →
+            </p>
+          </Link>
         ))}
       </div>
 
@@ -152,35 +155,43 @@ export default async function AdminDashboard() {
             </thead>
             <tbody>
               {latest.map((b) => (
-                <tr key={b.id} className="border-b border-slate-100 last:border-0">
-                  <td className="py-3 pr-4">
-                    <p className="font-bold text-slate-900">{b.customer_name}</p>
-                    <p className="text-xs text-slate-500">
-                      {b.brand ? `${b.brand} ${b.model}` : "-"}
-                    </p>
-                  </td>
-                  <td className="py-3 pr-4">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                        b.status === "pending"
-                          ? "bg-amber-100 text-amber-700"
-                          : b.status === "confirmed"
-                            ? "bg-brand-softer text-brand-strong"
-                            : b.status === "completed"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-rose-100 text-rose-600"
-                      }`}
-                    >
-                      {statusLabels[b.status] || b.status}
-                    </span>
-                  </td>
-                  <td className="py-3 pr-4 font-semibold text-slate-700">
-                    {b.start_date} → {b.end_date}
-                  </td>
-                  <td className="py-3 font-bold text-slate-900">
-                    {formatBaht(b.total_price)} {t.common.baht}
-                  </td>
-                </tr>
+                <Link
+                  key={b.id}
+                  href={`/admin/bookings/${b.id}`}
+                  className="group contents"
+                >
+                  <tr className="cursor-pointer border-b border-slate-100 transition last:border-0 hover:bg-brand-soft/50">
+                    <td className="py-3 pr-4">
+                      <p className="font-bold text-slate-900 group-hover:text-brand-strong">
+                        {b.customer_name}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {b.brand ? `${b.brand} ${b.model}` : "-"}
+                      </p>
+                    </td>
+                    <td className="py-3 pr-4">
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-xs font-bold ${
+                          b.status === "pending"
+                            ? "bg-amber-100 text-amber-700"
+                            : b.status === "confirmed"
+                              ? "bg-brand-softer text-brand-strong"
+                              : b.status === "completed"
+                                ? "bg-emerald-100 text-emerald-700"
+                                : "bg-rose-100 text-rose-600"
+                        }`}
+                      >
+                        {statusLabels[b.status] || b.status}
+                      </span>
+                    </td>
+                    <td className="py-3 pr-4 font-semibold text-slate-700">
+                      {b.start_date} → {b.end_date}
+                    </td>
+                    <td className="py-3 font-bold text-slate-900">
+                      {formatBaht(b.total_price)} {t.common.baht}
+                    </td>
+                  </tr>
+                </Link>
               ))}
             </tbody>
           </table>
