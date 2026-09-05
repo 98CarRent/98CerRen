@@ -83,25 +83,25 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
           <h1 className="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">{name}</h1>
 
           <div className="mt-4 rounded-2xl border border-brand-soft bg-brand-soft p-5">
-            <div className="space-y-2 text-base">
-              <div className="flex items-baseline justify-between gap-4">
+            <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2 text-base">
+              <span className="flex items-baseline gap-1.5">
                 <span className="font-semibold text-slate-600">{t.car.priceDaily}</span>
                 <span className="font-black text-brand-strong">
                   {formatBaht(car.price_per_day)} {t.common.baht}
                 </span>
-              </div>
-              <div className="flex items-baseline justify-between gap-4">
+              </span>
+              <span className="flex items-baseline gap-1.5">
                 <span className="font-semibold text-slate-600">{t.car.priceWeekly}</span>
                 <span className="font-black text-brand-strong">
                   {formatBaht(car.price_week)} {t.common.baht}
                 </span>
-              </div>
-              <div className="flex items-baseline justify-between gap-4">
+              </span>
+              <span className="flex items-baseline gap-1.5">
                 <span className="font-semibold text-slate-600">{t.car.priceMonthly}</span>
                 <span className="font-black text-brand-strong">
                   {formatBaht(car.price_month)} {t.common.baht}
                 </span>
-              </div>
+              </span>
             </div>
             <p className="mt-4 border-t border-brand-softer pt-3 text-xs font-medium text-slate-500">
               💡 {t.car.priceNote}
