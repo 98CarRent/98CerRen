@@ -169,3 +169,59 @@ img {
 [data-bg="rose"] {
   --web-bg: #fdf2f4;
 }
+
+/* ===== Dark backgrounds ===== */
+[data-bg="dark"] {
+  --web-bg: #0f172a;
+  color-scheme: dark;
+}
+[data-bg="midnight"] {
+  --web-bg: #1e293b;
+  color-scheme: dark;
+}
+[data-bg="dark"] .bg-white,
+[data-bg="midnight"] .bg-white,
+[data-bg="dark"] .bg-white\/95,
+[data-bg="midnight"] .bg-white\/95,
+[data-bg="dark"] .bg-white\/90,
+[data-bg="midnight"] .bg-white\/90,
+[data-bg="dark"] .bg-white\/80,
+[data-bg="midnight"] .bg-white\/80 {
+  background-color: #1e293b;
+}
+[data-bg="dark"] .bg-slate-50,
+[data-bg="midnight"] .bg-slate-50,
+[data-bg="dark"] .bg-slate-100,
+[data-bg="midnight"] .bg-slate-100 {
+  background-color: #273449;
+}
+[data-bg="dark"] .bg-slate-200,
+[data-bg="midnight"] .bg-slate-200 {
+  background-color: #334155;
+}
+[data-bg="dark"] .text-slate-900,
+[data-bg="midnight"] .text-slate-900,
+[data-bg="dark"] .text-slate-800,
+[data-bg="midnight"] .text-slate-800 {
+  color: #f8fafc;
+}
+[data-bg="dark"] .text-slate-700,
+[data-bg="midnight"] .text-slate-700,
+[data-bg="dark"] .text-slate-600,
+[data-bg="midnight"] .text-slate-600 {
+  color: #cbd5e1;
+}
+[data-bg="dark"] .text-slate-500,
+[data-bg="midnight"] .text-slate-500,
+[data-bg="dark"] .text-slate-400,
+[data-bg="midnight"] .text-slate-400 {
+  color: #94a3b8;
+}
+[data-bg="dark"] .border-slate-100,
+[data-bg="midnight"] .border-slate-100,
+[data-bg="dark"] .border-slate-200,
+[data-bg="midnight"] .border-slate-200,
+[data-bg="dark"] .divide-slate-200,
+[data-bg="midnight"] .divide-slate-200 {
+  border-color: #334155;
+}

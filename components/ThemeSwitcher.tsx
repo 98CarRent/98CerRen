@@ -16,6 +16,8 @@ const BGS = [
   { id: "cream", hex: "#fdf7ec", ring: "#e3c795", name: "พื้นหลังครีม" },
   { id: "mist", hex: "#eef6ff", ring: "#93c5fd", name: "พื้นหลังฟ้าอ่อน" },
   { id: "rose", hex: "#fdf2f4", ring: "#f4a9b8", name: "พื้นหลังชมพูอ่อน" },
+  { id: "dark", hex: "#0f172a", ring: "#475569", name: "พื้นหลังเข้ม" },
+  { id: "midnight", hex: "#1e293b", ring: "#64748b", name: "พื้นหลังมืด" },
 ] as const;
 
 export default function ThemeSwitcher({ title }: { title?: string }) {
