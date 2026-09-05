@@ -37,7 +37,7 @@ export async function requireAdmin(): Promise<AdminSession> {
 }
 
 export async function loginAdmin(username: string, password: string): Promise<boolean> {
-  const user = db
+  const user = await db
     .prepare("SELECT * FROM users WHERE username = ?")
     .get(username) as
     | { id: number; password_hash: string; role: string }

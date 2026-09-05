@@ -36,7 +36,7 @@ export default async function TrackPage({
 
   const code = ref ? ref.trim().toUpperCase() : "";
   const row = code
-    ? (db
+    ? (await db
         .prepare(
           `SELECT b.ref_code, b.customer_name, b.start_date, b.end_date, b.total_price,
                   b.status, b.rental_type, b.pickup_location, c.brand, c.model

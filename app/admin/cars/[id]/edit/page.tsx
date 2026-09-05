@@ -13,12 +13,12 @@ export default async function EditCarPage(props: PageProps<"/admin/cars/[id]/edi
   const lang = await getLang();
   const t = getDict(lang);
 
-  const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(Number(id)) as
+  const car = await db.prepare("SELECT * FROM cars WHERE id = ?").get(Number(id)) as
     | Car
     | undefined;
   if (!car) notFound();
 
-  const images = db
+  const images = await db
     .prepare("SELECT id, url FROM car_images WHERE car_id = ? ORDER BY id")
     .all(car.id) as { id: number; url: string }[];
 

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function TourismPage() {
   const lang = await getLang();
   const t = getDict(lang);
-  const places = db
+  const places = await db
     .prepare("SELECT * FROM tourism_places ORDER BY id")
     .all() as TourismPlace[];
 

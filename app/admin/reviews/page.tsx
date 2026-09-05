@@ -8,7 +8,7 @@ import type { Review } from "@/lib/types";
 export default async function AdminReviewsPage() {
   const lang = await getLang();
   const t = getDict(lang);
-  const reviews = db.prepare("SELECT * FROM reviews ORDER BY id DESC").all() as Review[];
+  const reviews = await db.prepare("SELECT * FROM reviews ORDER BY id DESC").all() as Review[];
 
   return (
     <div>

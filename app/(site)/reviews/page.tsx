@@ -13,7 +13,7 @@ export default async function ReviewsPage({
 }) {
   const [{ thanks }, lang] = await Promise.all([searchParams, getLang()]);
   const t = getDict(lang);
-  const reviews = db.prepare("SELECT * FROM reviews ORDER BY id DESC").all() as Review[];
+  const reviews = await db.prepare("SELECT * FROM reviews ORDER BY id DESC").all() as Review[];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">

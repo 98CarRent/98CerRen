@@ -8,7 +8,7 @@ export default async function AdminBookingsPage() {
   const lang = await getLang();
   const t = getDict(lang);
 
-  const bookings = db
+  const bookings = await db
     .prepare(
       `SELECT b.*, c.brand, c.model FROM bookings b
        LEFT JOIN cars c ON c.id = b.car_id

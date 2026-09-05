@@ -19,8 +19,8 @@ export default async function AdminGalleryPage({
   const lang = await getLang();
   const t = getDict(lang);
   const { folder } = await searchParams;
-  const folders = db.prepare("SELECT * FROM gallery_folders ORDER BY id DESC").all() as GalleryFolder[];
-  const items = db.prepare("SELECT * FROM gallery ORDER BY id DESC").all() as GalleryItem[];
+  const folders = await db.prepare("SELECT * FROM gallery_folders ORDER BY id DESC").all() as GalleryFolder[];
+  const items = await db.prepare("SELECT * FROM gallery ORDER BY id DESC").all() as GalleryItem[];
 
   const grouped = new Map<number | null, GalleryItem[]>();
   for (const item of items) {

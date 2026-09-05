@@ -21,8 +21,8 @@ export default async function GalleryPage({
   const t = getDict(lang);
   const { folder, view } = await searchParams;
 
-  const folders = db.prepare("SELECT * FROM gallery_folders ORDER BY id").all() as GalleryFolder[];
-  const galleryItems = db.prepare("SELECT * FROM gallery ORDER BY id DESC").all() as GalleryItem[];
+  const folders = await db.prepare("SELECT * FROM gallery_folders ORDER BY id").all() as GalleryFolder[];
+  const galleryItems = await db.prepare("SELECT * FROM gallery ORDER BY id DESC").all() as GalleryItem[];
 
   const captionFor = (g: GalleryItem) =>
     lang === "en" ? g.caption_en || g.caption_th : g.caption_th || g.caption_en;
@@ -37,7 +37,7 @@ export default async function GalleryPage({
   }
   const hasUnassigned = grouped.has(null) && grouped.get(null)!.length > 0;
 
-  const carImages = db
+  const carImages = await db
     .prepare(
       `SELECT ci.url, c.brand, c.model FROM car_images ci
        JOIN cars c ON c.id = ci.car_id ORDER BY ci.id DESC`

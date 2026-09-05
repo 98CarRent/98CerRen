@@ -10,7 +10,7 @@ import type { Car } from "@/lib/types";
 export default async function AdminCarsPage() {
   const lang = await getLang();
   const t = getDict(lang);
-  const cars = db.prepare("SELECT * FROM cars ORDER BY id DESC").all() as Car[];
+  const cars = await db.prepare("SELECT * FROM cars ORDER BY id DESC").all() as Car[];
 
   return (
     <div>

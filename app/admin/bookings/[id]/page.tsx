@@ -22,7 +22,7 @@ export default async function BookingDetailPage(props: PageProps) {
   const lang = await getLang();
   const t = getDict(lang);
 
-  const booking = db
+  const booking = await db
     .prepare(
       `SELECT b.*, c.brand, c.model, c.price_per_day, c.image FROM bookings b
        LEFT JOIN cars c ON c.id = b.car_id WHERE b.id = ?`

@@ -14,11 +14,11 @@ export default async function BookingPage({
 }) {
   const [{ success, ref }, lang] = await Promise.all([searchParams, getLang()]);
   const t = getDict(lang);
-  const cars = db.prepare("SELECT * FROM cars ORDER BY id DESC").all() as Car[];
+  const cars = await db.prepare("SELECT * FROM cars ORDER BY id DESC").all() as Car[];
 
   const today = new Date().toISOString().slice(0, 10);
   const blocked = (
-    db
+    await db
       .prepare(
         `SELECT car_id, start_date, end_date FROM bookings
           WHERE status != 'canceled' AND end_date >= ?`

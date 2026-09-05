@@ -23,22 +23,22 @@ export default async function HomePage() {
   const t = getDict(lang);
   const isEn = lang === "en";
 
-  const cars = db
+  const cars = await db
     .prepare(
       "SELECT * FROM cars WHERE status = 'available' ORDER BY id ASC LIMIT 3"
     )
     .all() as Car[];
 
-  const reviews = db
+  const reviews = await db
     .prepare("SELECT * FROM reviews ORDER BY id DESC LIMIT 3")
     .all() as Review[];
 
   const exists = (url: string) => fs.existsSync(path.join(process.cwd(), "public", url));
-  const folderRows = db.prepare("SELECT * FROM gallery_folders ORDER BY id").all() as {
+  const folderRows = await db.prepare("SELECT * FROM gallery_folders ORDER BY id").all() as {
     id: number;
     name: string;
   }[];
-  const galleryRows = db
+  const galleryRows = await db
     .prepare("SELECT folder_id, url FROM gallery ORDER BY id")
     .all() as { folder_id: number | null; url: string }[];
   const firstByFolder = new Map<number | null, string>();

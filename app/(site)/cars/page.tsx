@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function CarsPage() {
   const lang = await getLang();
   const t = getDict(lang);
-  const cars = db.prepare("SELECT * FROM cars ORDER BY id DESC").all() as Car[];
+  const cars = await db.prepare("SELECT * FROM cars ORDER BY id DESC").all() as Car[];
 
   return <CarsViewer cars={cars} t={t} />;
 }

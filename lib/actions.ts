@@ -31,7 +31,7 @@ export async function createCar(formData: FormData) {
   await requireAdmin();
   const image = (formData.get("image") as File | null) || null;
   const imagePath = await saveUpload(image);
-  db.prepare(
+  await db.prepare(
     `INSERT INTO cars (brand, model, year, plate, seats, transmission, fuel, type, price_per_day, price_week, price_month, deposit, status, image, description_th, description_en)
      VALUES (@brand, @model, @year, @plate, @seats, @transmission, @fuel, @type, @price, @price_week, @price_month, @deposit, @status, @image, @descth, @descen)`
   ).run({
@@ -62,7 +62,7 @@ export async function updateCar(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
   if (!id) return;
-  const existing = db.prepare("SELECT * FROM cars WHERE id = ?").get(id) as
+  const existing = await db.prepare("SELECT * FROM cars WHERE id = ?").get(id) as
     | { image: string | null }
     | undefined;
   const image = (formData.get("image") as File | null) || null;
@@ -74,7 +74,7 @@ export async function updateCar(formData: FormData) {
       imagePath = newPath;
     }
   }
-  db.prepare(
+  await db.prepare(
     `UPDATE cars SET brand=@brand, model=@model, year=@year, plate=@plate, seats=@seats,
      transmission=@transmission, fuel=@fuel, type=@type, price_per_day=@price,
      price_week=@price_week, price_month=@price_month, deposit=@deposit,
@@ -109,17 +109,17 @@ export async function deleteCar(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
   if (!id) return;
-  const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(id) as
+  const car = await db.prepare("SELECT * FROM cars WHERE id = ?").get(id) as
     | { image: string | null }
     | undefined;
   if (car) deleteUploaded(car.image);
-  const images = db.prepare("SELECT url FROM car_images WHERE car_id = ?").all(id) as {
+  const images = await db.prepare("SELECT url FROM car_images WHERE car_id = ?").all(id) as {
     url: string;
   }[];
   for (const img of images) deleteUploaded(img.url);
-  db.prepare("DELETE FROM car_images WHERE car_id = ?").run(id);
-  db.prepare("DELETE FROM bookings WHERE car_id = ?").run(id);
-  db.prepare("DELETE FROM cars WHERE id = ?").run(id);
+  await db.prepare("DELETE FROM car_images WHERE car_id = ?").run(id);
+  await db.prepare("DELETE FROM bookings WHERE car_id = ?").run(id);
+  await db.prepare("DELETE FROM cars WHERE id = ?").run(id);
   revalidatePath("/admin/cars");
   revalidatePath("/");
   revalidatePath("/cars");
@@ -132,7 +132,7 @@ export async function addCarImage(formData: FormData) {
   const file = (formData.get("image") as File | null) || null;
   if (!id || !file || file.size === 0) return;
   const path = await saveUpload(file);
-  if (path) db.prepare("INSERT INTO car_images (car_id, url) VALUES (?, ?)").run(id, path);
+  if (path) await db.prepare("INSERT INTO car_images (car_id, url) VALUES (?, ?)").run(id, path);
   revalidatePath("/admin/cars");
   revalidatePath(`/cars/${id}`);
 }
@@ -142,11 +142,11 @@ export async function removeCarImage(formData: FormData) {
   const imageId = num(formData.get("imageId"));
   const carId = num(formData.get("carId"));
   if (!imageId || !carId) return;
-  const img = db.prepare("SELECT url FROM car_images WHERE id = ?").get(imageId) as
+  const img = await db.prepare("SELECT url FROM car_images WHERE id = ?").get(imageId) as
     | { url: string }
     | undefined;
   if (img) deleteUploaded(img.url);
-  db.prepare("DELETE FROM car_images WHERE id = ?").run(imageId);
+  await db.prepare("DELETE FROM car_images WHERE id = ?").run(imageId);
   revalidatePath("/admin/cars");
   revalidatePath(`/cars/${carId}`);
 }
@@ -162,7 +162,7 @@ export async function createBooking(formData: FormData) {
   const end = str(formData.get("end_date"));
   if (!start || !end) return { ok: false };
   const car = carId
-    ? (db.prepare("SELECT id, brand, model, price_per_day FROM cars WHERE id = ?").get(carId) as
+    ? (await db.prepare("SELECT id, brand, model, price_per_day FROM cars WHERE id = ?").get(carId) as
         | { id: number; brand: string; model: string; price_per_day: number }
         | undefined)
     : undefined;
@@ -171,8 +171,8 @@ export async function createBooking(formData: FormData) {
     : num(formData.get("total_price")) || 0;
   const rentalType =
     str(formData.get("rental_type")) === "with_driver" ? "with_driver" : "self";
-  const ref = makeRefCode();
-  db.prepare(
+  const ref = await makeRefCode();
+  await db.prepare(
     `INSERT INTO bookings (car_id, customer_name, customer_phone, customer_line, rental_type, start_date, end_date, total_price, pickup_location, note, status, ref_code)
      VALUES (@car_id, @name, @phone, @line, @rental_type, @start, @end, @total, @pickup, @note, 'pending', @ref)`
   ).run({
@@ -207,7 +207,7 @@ export async function setBookingStatus(formData: FormData) {
   const id = num(formData.get("id"));
   const status = str(formData.get("status")) as BookingStatus;
   if (!id || !["pending", "confirmed", "canceled", "completed"].includes(status)) return;
-  db.prepare("UPDATE bookings SET status = ? WHERE id = ?").run(status, id);
+  await db.prepare("UPDATE bookings SET status = ? WHERE id = ?").run(status, id);
   revalidatePath("/admin/bookings");
   revalidatePath("/admin");
 }
@@ -216,7 +216,7 @@ export async function deleteBooking(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
   if (!id) return;
-  db.prepare("DELETE FROM bookings WHERE id = ?").run(id);
+  await db.prepare("DELETE FROM bookings WHERE id = ?").run(id);
   revalidatePath("/admin/bookings");
   revalidatePath("/admin");
 }
@@ -227,7 +227,7 @@ export async function createGalleryFolder(formData: FormData) {
   await requireAdmin();
   const name = str(formData.get("name"));
   if (!name) return;
-  db.prepare("INSERT OR IGNORE INTO gallery_folders (name) VALUES (?)").run(name);
+  await db.prepare("INSERT OR IGNORE INTO gallery_folders (name) VALUES (?)").run(name);
   revalidatePath("/admin/gallery");
   revalidatePath("/gallery");
   redirect("/admin/gallery");
@@ -237,12 +237,12 @@ export async function deleteGalleryFolder(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
   if (!id) return;
-  const rows = db.prepare("SELECT url FROM gallery WHERE folder_id = ?").all(id) as {
+  const rows = await db.prepare("SELECT url FROM gallery WHERE folder_id = ?").all(id) as {
     url: string;
   }[];
   for (const row of rows) deleteUploaded(row.url);
-  db.prepare("DELETE FROM gallery WHERE folder_id = ?").run(id);
-  db.prepare("DELETE FROM gallery_folders WHERE id = ?").run(id);
+  await db.prepare("DELETE FROM gallery WHERE folder_id = ?").run(id);
+  await db.prepare("DELETE FROM gallery_folders WHERE id = ?").run(id);
   revalidatePath("/admin/gallery");
   revalidatePath("/gallery");
   redirect("/admin/gallery");
@@ -261,7 +261,7 @@ export async function addGalleryImages(formData: FormData) {
   for (const file of files) {
     const imagePath = await saveUpload(file);
     if (!imagePath) continue;
-    db.prepare(
+    await db.prepare(
       "INSERT INTO gallery (url, caption_th, caption_en, folder_id) VALUES (?, ?, ?, ?)"
     ).run(imagePath, caption_th, caption_en, folderId);
     saved++;
@@ -277,11 +277,11 @@ export async function deleteGalleryImage(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
   if (!id) return;
-  const img = db.prepare("SELECT url FROM gallery WHERE id = ?").get(id) as
+  const img = await db.prepare("SELECT url FROM gallery WHERE id = ?").get(id) as
     | { url: string }
     | undefined;
   if (img) deleteUploaded(img.url);
-  db.prepare("DELETE FROM gallery WHERE id = ?").run(id);
+  await db.prepare("DELETE FROM gallery WHERE id = ?").run(id);
   revalidatePath("/admin/gallery");
   revalidatePath("/gallery");
 }
@@ -294,7 +294,7 @@ export async function createReview(formData: FormData) {
   const file = (formData.get("image") as File | null) || null;
   const imagePath = await saveUpload(file);
   const rating = Math.min(5, Math.max(1, num(formData.get("rating")) || 5));
-  db.prepare("INSERT INTO reviews (customer_name, rating, comment, image) VALUES (?, ?, ?, ?)").run(
+  await db.prepare("INSERT INTO reviews (customer_name, rating, comment, image) VALUES (?, ?, ?, ?)").run(
     name,
     rating,
     str(formData.get("comment")),
@@ -310,11 +310,11 @@ export async function deleteReview(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
   if (!id) return;
-  const review = db.prepare("SELECT * FROM reviews WHERE id = ?").get(id) as
+  const review = await db.prepare("SELECT * FROM reviews WHERE id = ?").get(id) as
     | { image: string | null }
     | undefined;
   if (review) deleteUploaded(review.image);
-  db.prepare("DELETE FROM reviews WHERE id = ?").run(id);
+  await db.prepare("DELETE FROM reviews WHERE id = ?").run(id);
   revalidatePath("/admin/reviews");
   revalidatePath("/reviews");
 }
@@ -323,14 +323,14 @@ function str(v: FormDataEntryValue | null): string {
   return String(v || "").trim();
 }
 
-function makeRefCode(): string {
+async function makeRefCode(): Promise<string> {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   for (let i = 0; i < 20; i++) {
     let code = "98-";
     for (let j = 0; j < 6; j++) {
       code += chars[Math.floor(Math.random() * chars.length)];
     }
-    const exists = db.prepare("SELECT 1 FROM bookings WHERE ref_code = ?").get(code);
+    const exists = await db.prepare("SELECT 1 FROM bookings WHERE ref_code = ?").get(code);
     if (!exists) return code;
   }
   return `98-${Date.now().toString(36).toUpperCase().slice(-6)}`;

@@ -1,4 +1,5 @@
 import Database from "better-sqlite3";
+import { createClient } from "@libsql/client";
 import fs from "fs";
 import path from "path";
 import bcrypt from "bcryptjs";
@@ -9,12 +10,77 @@ const uploadsDir = path.join(process.cwd(), "public", "uploads");
 fs.mkdirSync(dataDir, { recursive: true });
 fs.mkdirSync(uploadsDir, { recursive: true });
 
-const db = new Database(path.join(dataDir, "carent.db"));
-db.pragma("journal_mode = DELETE");
-db.pragma("foreign_keys = ON");
+export const ENABLE_DEMO_SEED =
+  process.env.ENABLE_DEMO_SEED === "1" || process.env.ENABLE_DEMO_SEED === "true";
 
-export function initSchema() {
-  db.exec(`
+const REMOTE_URL = process.env.TURSO_URL;
+const REMOTE_TOKEN = process.env.TURSO_AUTH_TOKEN;
+
+let local: Database.Database | null = null;
+let remote: ReturnType<typeof createClient> | null = null;
+
+if (REMOTE_URL && REMOTE_TOKEN) {
+  remote = createClient({ url: REMOTE_URL, authToken: REMOTE_TOKEN });
+} else {
+  fs.mkdirSync(dataDir, { recursive: true });
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  local = new Database(path.join(dataDir, "carent.db"));
+  local.pragma("journal_mode = DELETE");
+  local.pragma("foreign_keys = ON");
+}
+
+type Bound = unknown[] | Record<string, unknown>;
+
+function toArgs(args: unknown[]): any {
+  if (args.length === 1 && args[0] !== null && typeof args[0] === "object") {
+    return args[0] as Record<string, unknown>;
+  }
+  return args as unknown[];
+}
+
+export interface Prepared {
+  run: (...b: unknown[]) => Promise<{ changes?: number | bigint }>;
+  get: (...b: unknown[]) => Promise<any>;
+  all: (...b: unknown[]) => Promise<any[]>;
+}
+
+export function prepare(sql: string): Prepared {
+  if (local) {
+    const st = local.prepare(sql);
+    return {
+      run: (...b) => Promise.resolve(st.run(...b)),
+      get: (...b) => Promise.resolve((st.get(...b) as Record<string, unknown>) ?? undefined),
+      all: (...b) => Promise.resolve(st.all(...b) as Record<string, unknown>[]),
+    };
+  }
+  return {
+    run: (...b) =>
+      (remote as NonNullable<typeof remote>)
+        .execute({ sql, args: toArgs(b) })
+        .then(() => ({})),
+    get: async (...b) => {
+      const r = await (remote as NonNullable<typeof remote>).execute({ sql, args: toArgs(b) });
+      return r.rows[0];
+    },
+    all: async (...b) => {
+      const r = await (remote as NonNullable<typeof remote>).execute({ sql, args: toArgs(b) });
+      return r.rows;
+    },
+  };
+}
+
+async function exec(sql: string) {
+  if (local) {
+    local.exec(sql);
+    return;
+  }
+  await (remote as NonNullable<typeof remote>).executeMultiple(sql);
+}
+
+export const db = { prepare, exec };
+
+export async function initSchema() {
+  await exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT NOT NULL UNIQUE,
@@ -106,43 +172,49 @@ export function initSchema() {
     CREATE UNIQUE INDEX IF NOT EXISTS uq_cars_name ON cars(brand, model);
   `);
 
-  const cols = db.prepare("PRAGMA table_info(bookings)").all() as { name: string }[];
+  const cols = (await db.prepare("PRAGMA table_info(bookings)").all()) as {
+    name: string;
+  }[];
   if (!cols.some((c) => c.name === "ref_code")) {
-    db.exec(
+    await exec(
       "ALTER TABLE bookings ADD COLUMN ref_code TEXT; CREATE UNIQUE INDEX IF NOT EXISTS uq_bookings_ref ON bookings(ref_code);"
     );
   }
 
-  const carCols = db.prepare("PRAGMA table_info(cars)").all() as { name: string }[];
+  const carCols = (await db.prepare("PRAGMA table_info(cars)").all()) as { name: string }[];
   if (!carCols.some((c) => c.name === "price_week")) {
-    db.exec("ALTER TABLE cars ADD COLUMN price_week REAL DEFAULT 0;");
+    await exec("ALTER TABLE cars ADD COLUMN price_week REAL DEFAULT 0;");
   }
   if (!carCols.some((c) => c.name === "price_month")) {
-    db.exec("ALTER TABLE cars ADD COLUMN price_month REAL DEFAULT 0;");
+    await exec("ALTER TABLE cars ADD COLUMN price_month REAL DEFAULT 0;");
   }
-  const galleryCols = db.prepare("PRAGMA table_info(gallery)").all() as { name: string }[];
+  const galleryCols = (await db.prepare("PRAGMA table_info(gallery)").all()) as {
+    name: string;
+  }[];
   if (!galleryCols.some((c) => c.name === "folder_id")) {
-    db.exec("ALTER TABLE gallery ADD COLUMN folder_id INTEGER;");
+    await exec("ALTER TABLE gallery ADD COLUMN folder_id INTEGER;");
   }
 
-  db.prepare(
+  await db.prepare(
     `UPDATE cars SET price_week = ROUND(price_per_day * 7 * 0.9) WHERE price_week IS NULL OR price_week = 0`
   ).run();
-  db.prepare(
+  await db.prepare(
     `UPDATE cars SET price_month = ROUND(price_per_day * 30 * 0.8) WHERE price_month IS NULL OR price_month = 0`
   ).run();
 }
 
-function seedAdmin() {
+async function seedAdmin() {
   const username = process.env.ADMIN_USERNAME || "admin";
   const password = process.env.ADMIN_PASSWORD || "admin123";
   const hash = bcrypt.hashSync(password, 10);
-  db.prepare(
-    "INSERT OR IGNORE INTO users (username, password_hash, role) VALUES (?, ?, 'admin')"
-  ).run(username, hash);
+  await db
+    .prepare(
+      "INSERT OR IGNORE INTO users (username, password_hash, role) VALUES (?, ?, 'admin')"
+    )
+    .run(username, hash);
 }
 
-function seedTourism() {
+async function seedTourism() {
   const W = "https://commons.wikimedia.org/wiki/Special:FilePath/";
   const img = (file: string) => `${W}${encodeURIComponent(file)}?width=1000`;
 
@@ -253,15 +325,17 @@ function seedTourism() {
     `INSERT OR IGNORE INTO tourism_places (name_th, name_en, city, description_th, description_en, image)
      VALUES (@name_th, @name_en, @city, @description_th, @description_en, @image)`
   );
-  const tx = db.transaction((rows: typeof places) => {
-    for (const row of rows) insert.run(row as never);
-  });
-  tx(places);
+  for (const row of places) {
+    await insert.run(row as never);
+  }
 }
 
-function seedCars() {
-  const carCount = (db.prepare("SELECT COUNT(*) AS c FROM cars").get() as { c: number }).c;
-  if (carCount > 0) return; // ไม่ seed ย้อนกลับ (ป้องกันรถ/รูปที่ถูกลบงอกกลับมา)
+async function seedCars() {
+  const carRow = await db.prepare("SELECT COUNT(*) AS c FROM cars").get();
+  const carCount = (carRow as { c: number }).c;
+  if (carCount > 0 && !ENABLE_DEMO_SEED) {
+    return; // ไม่ seed ย้อนกลับ (ป้องกันรถ/รูปที่ถูกลบงอกกลับมา)
+  }
 
   const cars = [
     {
@@ -390,33 +464,30 @@ function seedCars() {
     `INSERT OR IGNORE INTO cars (brand, model, year, plate, seats, transmission, fuel, type, price_per_day, price_week, price_month, deposit, status, image, description_th, description_en)
      VALUES (@brand, @model, @year, @plate, @seats, @transmission, @fuel, @type, @price_per_day, @price_week, @price_month, @deposit, @status, @image, @description_th, @description_en)`
   );
-  const tx = db.transaction((rows: typeof cars) => {
-    for (const row of rows) insert.run(row as never);
-  });
-  tx(cars);
+  for (const car of cars) {
+    await insert.run(car as never);
+  }
 
-  const carRows = db
+  const carRows = (await db
     .prepare("SELECT id, image FROM cars ORDER BY id")
-    .all() as { id: number; image: string | null }[];
+    .all()) as { id: number; image: string | null }[];
   const imgInsert = db.prepare("INSERT INTO car_images (car_id, url) VALUES (?, ?)");
   for (const car of carRows) {
     if (!car.image) continue;
-    const existing = db
+    const existing = (await db
       .prepare("SELECT COUNT(*) AS c FROM car_images WHERE car_id = ?")
-      .get(car.id) as { c: number };
-    if (existing.c === 0) imgInsert.run(car.id, car.image);
+      .get(car.id)) as { c: number };
+    if (existing.c === 0) await imgInsert.run(car.id, car.image);
   }
 }
 
-export function seedDatabase() {
-  db.transaction(() => {
-    seedAdmin();
-    seedTourism();
-    seedCars();
-  })();
+export async function seedDatabase() {
+  await seedAdmin();
+  await seedTourism();
+  await seedCars();
 }
 
-initSchema();
-seedDatabase();
+await initSchema();
+await seedDatabase();
 
 export default db;

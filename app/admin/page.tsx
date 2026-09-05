@@ -18,23 +18,23 @@ export default async function AdminDashboard() {
   const lang = await getLang();
   const t = getDict(lang);
 
-  const totalCars = (db.prepare("SELECT COUNT(*) AS c FROM cars").get() as { c: number }).c;
+  const totalCars = (await db.prepare("SELECT COUNT(*) AS c FROM cars").get() as { c: number }).c;
   const availableCars = (
-    db.prepare("SELECT COUNT(*) AS c FROM cars WHERE status='available'").get() as { c: number }
+    await db.prepare("SELECT COUNT(*) AS c FROM cars WHERE status='available'").get() as { c: number }
   ).c;
   const totalBookings = (
-    db.prepare("SELECT COUNT(*) AS c FROM bookings").get() as { c: number }
+    await db.prepare("SELECT COUNT(*) AS c FROM bookings").get() as { c: number }
   ).c;
   const pendingBookings = (
-    db.prepare("SELECT COUNT(*) AS c FROM bookings WHERE status='pending'").get() as { c: number }
+    await db.prepare("SELECT COUNT(*) AS c FROM bookings WHERE status='pending'").get() as { c: number }
   ).c;
   const revenue = (
-    db.prepare(
+    await db.prepare(
       "SELECT COALESCE(SUM(total_price),0) AS s FROM bookings WHERE status='completed'"
     ).get() as { s: number }
   ).s;
 
-  const monthlyRaw = db
+  const monthlyRaw = await db
     .prepare(
       `SELECT strftime('%Y-%m', created_at) AS ym, COUNT(*) AS c
        FROM bookings WHERE created_at >= date('now','localtime','-6 months')
@@ -53,7 +53,7 @@ export default async function AdminDashboard() {
       };
     });
 
-  const statusRows = db
+  const statusRows = await db
     .prepare("SELECT status, COUNT(*) AS c FROM bookings GROUP BY status")
     .all() as { status: string; c: number }[];
 
@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
     value: r.c,
   }));
 
-  const latest = db
+  const latest = await db
     .prepare(
       `SELECT b.*, c.brand, c.model FROM bookings b
        LEFT JOIN cars c ON c.id = b.car_id
