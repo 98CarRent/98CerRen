@@ -245,6 +245,7 @@ export async function deleteGalleryFolder(formData: FormData) {
   db.prepare("DELETE FROM gallery_folders WHERE id = ?").run(id);
   revalidatePath("/admin/gallery");
   revalidatePath("/gallery");
+  redirect("/admin/gallery");
 }
 
 export async function addGalleryImages(formData: FormData) {
