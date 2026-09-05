@@ -35,9 +35,31 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.25),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(37,99,235,0.35),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.25),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(37,99,235,0.35),transparent_60%),radial-gradient(ellipse_at_center,rgba(139,92,246,0.12),transparent_65%)]" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-brand-strong/25 blur-3xl" />
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full text-white/10"
+          aria-hidden="true"
+        >
+          <defs>
+            <pattern id="heroDots" width="26" height="26" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#heroDots)" opacity="0.35" />
+          <g fill="none" stroke="currentColor">
+            <path d="M -60 260 L 230 60 L 540 210 Z" strokeWidth="2" opacity="0.5" />
+            <circle cx="78%" cy="28%" r="170" strokeWidth="1.5" opacity="0.45" />
+            <circle cx="78%" cy="28%" r="130" strokeWidth="1" opacity="0.3" />
+            <circle cx="6%" cy="74%" r="95" strokeWidth="1.5" opacity="0.5" />
+            <path d="M 210 90 h 130 v 170 h -130 z" strokeWidth="1.5" opacity="0.35" />
+            <path d="M 720 620 l 130 -170" strokeWidth="2" opacity="0.4" />
+            <path d="M 40 140 l -28 48" strokeWidth="2" opacity="0.4" />
+          </g>
+        </svg>
+        <div className="pointer-events-none absolute left-[14%] top-[16%] hidden h-44 w-44 rotate-45 rounded-[2rem] border border-white/10 lg:block" />
+        <div className="pointer-events-none absolute bottom-[14%] right-[36%] hidden h-24 w-24 rounded-full border border-dashed border-white/15 lg:block" />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 lg:grid-cols-2 lg:py-28">
           <div>
