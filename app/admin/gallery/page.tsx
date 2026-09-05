@@ -56,14 +56,18 @@ export default async function AdminGalleryPage() {
           <button className="rounded-xl bg-brand px-6 py-3 font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong">
             {t.gallery.createFolder} →
           </button>
-          {folders.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2">
+        </form>
+
+        {folders.length > 0 && (
+          <div className="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 className="mb-3 text-base font-extrabold text-slate-900">📁 {t.gallery.folders}</h2>
+            <div className="flex flex-wrap gap-2">
               {folders.map((f) => (
                 <span
                   key={f.id}
                   className="inline-flex items-center gap-1.5 rounded-full border border-brand-soft bg-brand-soft px-3 py-1 text-xs font-bold text-brand-strong"
                 >
-                  📁 {f.name}
+                  {f.name}
                   <span className="rounded-full bg-white px-1.5 text-[10px]">
                     {grouped.get(f.id)?.length || 0}
                   </span>
@@ -76,11 +80,13 @@ export default async function AdminGalleryPage() {
                 </span>
               ))}
             </div>
-          )}
-          {folders.length === 0 && (
-            <p className="text-xs text-slate-400">{t.gallery.noFolders}</p>
-          )}
-        </form>
+          </div>
+        )}
+        {folders.length === 0 && (
+          <p className="rounded-2xl border border-dashed border-slate-300 p-6 text-center text-xs text-slate-400">
+            {t.gallery.noFolders}
+          </p>
+        )}
 
         <form
           action={addGalleryImages}
