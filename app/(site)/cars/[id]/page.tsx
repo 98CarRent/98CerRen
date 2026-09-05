@@ -4,6 +4,8 @@ import db from "@/lib/db";
 import { getDict } from "@/lib/lang";
 import { getLang } from "@/lib/lang-server";
 import { formatBaht } from "@/lib/money";
+import { imageExists } from "@/lib/utils";
+import CarPhotoGallery from "@/components/CarPhotoGallery";
 import type { Car } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +24,14 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
     .prepare("SELECT url FROM car_images WHERE car_id = ? ORDER BY id")
     .all(car.id) as { url: string }[];
 
+  const allUrls = Array.from(
+    new Set(
+      [car.image, ...images.map((im) => im.url)].filter(
+        (u): u is string => Boolean(u) && imageExists(u)
+      )
+    )
+  );
+
   const name = `${car.brand} ${car.model}`;
   const statusLabel = t.car[car.status];
   const desc = lang === "en" ? car.description_en : car.description_th;
@@ -38,30 +48,7 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2">
         <div>
-          <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
-            {car.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={car.image}
-                alt={name}
-                className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-              />
-            ) : (
-              <div className="flex aspect-[4/3] w-full items-center justify-center text-7xl">
-                🚗
-              </div>
-            )}
-          </div>
-          {images.length > 1 && (
-            <div className="mt-4 grid grid-cols-4 gap-3">
-              {images.map((im, i) => (
-                <div key={i} className="overflow-hidden rounded-xl border border-slate-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={im.url} alt={name} className="aspect-square w-full object-cover" />
-                </div>
-              ))}
-            </div>
-          )}
+          <CarPhotoGallery urls={allUrls} name={name} />
         </div>
 
         <div>
