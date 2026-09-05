@@ -1,0 +1,133 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import db from "@/lib/db";
+import { getDict } from "@/lib/lang";
+import { getLang } from "@/lib/lang-server";
+import { formatBaht } from "@/lib/money";
+import type { Car } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+
+export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
+  const { id } = await props.params;
+  const lang = await getLang();
+  const t = getDict(lang);
+
+  const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(Number(id)) as
+    | Car
+    | undefined;
+  if (!car) notFound();
+
+  const images = db
+    .prepare("SELECT url FROM car_images WHERE car_id = ? ORDER BY id")
+    .all(car.id) as { url: string }[];
+
+  const name = `${car.brand} ${car.model}`;
+  const statusLabel = t.car[car.status];
+  const desc = lang === "en" ? car.description_en : car.description_th;
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-10">
+      <nav className="text-sm text-slate-500">
+        <Link href="/cars" className="hover:text-blue-700">
+          {t.nav.cars}
+        </Link>
+        <span className="mx-2">/</span>
+        <span className="font-semibold text-slate-800">{name}</span>
+      </nav>
+
+      <div className="mt-6 grid gap-8 lg:grid-cols-2">
+        <div>
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+            {car.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={car.image}
+                alt={name}
+                className="aspect-[4/3] w-full object-cover"
+              />
+            ) : (
+              <div className="flex aspect-[4/3] w-full items-center justify-center text-7xl">
+                🚗
+              </div>
+            )}
+          </div>
+          {images.length > 1 && (
+            <div className="mt-4 grid grid-cols-4 gap-3">
+              {images.map((im, i) => (
+                <div key={i} className="overflow-hidden rounded-xl border border-slate-200">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={im.url} alt={name} className="aspect-square w-full object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={`rounded-full px-3 py-1 text-xs font-bold ${
+              car.status === "available"
+                ? "bg-emerald-100 text-emerald-700"
+                : car.status === "rented"
+                  ? "bg-amber-100 text-amber-700"
+                  : "bg-slate-200 text-slate-600"
+            }`}>
+              {statusLabel}
+            </span>
+            <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
+              {car.type === "with_driver" ? t.car.with_driver : t.car.self}
+            </span>
+          </div>
+
+          <h1 className="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">{name}</h1>
+
+          <div className="mt-4 flex items-baseline gap-2">
+            <span className="text-4xl font-black text-blue-700">
+              {formatBaht(car.price_per_day)}
+            </span>
+            <span className="font-semibold text-slate-500">/ {t.car.pricePerDay}</span>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {[
+              { k: t.car.year, v: car.year ? String(car.year) : "-" },
+              { k: t.car.seats, v: `${car.seats}` },
+              { k: t.car.transmission, v: car.transmission === "auto" ? t.car.auto : t.car.manual },
+              { k: t.car.fuel, v: car.fuel === "diesel" ? t.car.diesel : t.car.petrol },
+              { k: t.car.deposit, v: `${formatBaht(car.deposit)} ${t.common.baht}` },
+              { k: t.car.plate, v: car.plate || "-" },
+            ].map((s) => (
+              <div key={s.k} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="text-xs font-semibold text-slate-500">{s.k}</p>
+                <p className="mt-0.5 font-bold text-slate-900">{s.v}</p>
+              </div>
+            ))}
+          </div>
+
+          {desc && (
+            <div className="mt-6">
+              <h2 className="text-lg font-extrabold text-slate-900">{t.car.description}</h2>
+              <p className="mt-2 leading-relaxed text-slate-600">{desc}</p>
+            </div>
+          )}
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href={`/booking?car=${car.id}`}
+              className="flex-1 rounded-xl bg-blue-600 px-6 py-3.5 text-center text-lg font-bold text-white shadow-xl shadow-blue-600/25 transition hover:bg-blue-700"
+            >
+              {t.car.book} →
+            </Link>
+            <Link
+              href="/booking"
+              className="rounded-xl border border-slate-300 px-6 py-3.5 font-bold text-slate-700 transition hover:border-blue-400 hover:text-blue-700"
+            >
+              {t.booking.title}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

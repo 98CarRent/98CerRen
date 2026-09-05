@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#bg)"/>
+  <circle cx="110" cy="90" r="150" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="700" cy="400" r="180" fill="rgba(255,255,255,0.05)"/>
+  <rect y="380" width="800" height="100" fill="#475569"/>
+  <line x1="0" y1="380" x2="800" y2="380" stroke="#e2e8f0" stroke-width="4"/>
+  <line x1="0" y1="420" x2="800" y2="420" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="60 40"/>
+  <g transform="translate(220,190)">
+    <path d="M0 78 Q-14 78 -12 44 L-10 40 L45 14 Q70 2 200 2 L330 2 Q410 10 470 40 L510 46 Q516 78 505 78 Z" fill="#334155"/>
+    <path d="M100 14 L190 -42 Q260 -56 320 -44 L380 2" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+    <path d="M120 14 L120 -24" stroke="#64748b" stroke-width="3"/>
+    <path d="M60 26 Q70 14 110 14 L290 14" stroke="#64748b" stroke-width="5"/>
+    <path d="M120 78 L120 14" stroke="#64748b" stroke-width="2"/>
+    <path d="M390 78 L390 14" stroke="#64748b" stroke-width="2"/>
+    <circle cx="100" cy="78" r="22" fill="#0f172a"/>
+    <circle cx="100" cy="78" r="10" fill="#94a3b8"/>
+    <circle cx="405" cy="78" r="22" fill="#0f172a"/>
+    <circle cx="405" cy="78" r="10" fill="#94a3b8"/>
+    <rect x="470" y="30" width="42" height="8" rx="4" fill="#fbbf24"/>
+  </g>
+  <text x="400" y="92" font-size="30" font-family="Sarabun, sans-serif" font-weight="bold" fill="#f8fafc" text-anchor="middle">Toyota Hilux Revo</text>
+  <text x="400" y="120" font-size="16" font-family="Sarabun, sans-serif" fill="#94a3b8" text-anchor="middle">รถเช่ามุกดาหาร · 98CarRent</text>
+</svg>
