@@ -56,6 +56,13 @@ export interface GalleryItem {
   caption_th: string;
   caption_en: string;
   category: string;
+  folder_id: number | null;
+  created_at: string;
+}
+
+export interface GalleryFolder {
+  id: number;
+  name: string;
   created_at: string;
 }
 

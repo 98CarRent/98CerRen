@@ -85,6 +85,12 @@ export function initSchema() {
       created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
     );
 
+    CREATE TABLE IF NOT EXISTS gallery_folders (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE,
+      created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    );
+
     CREATE TABLE IF NOT EXISTS tourism_places (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name_th TEXT NOT NULL,
@@ -114,6 +120,11 @@ export function initSchema() {
   if (!carCols.some((c) => c.name === "price_month")) {
     db.exec("ALTER TABLE cars ADD COLUMN price_month REAL DEFAULT 0;");
   }
+  const galleryCols = db.prepare("PRAGMA table_info(gallery)").all() as { name: string }[];
+  if (!galleryCols.some((c) => c.name === "folder_id")) {
+    db.exec("ALTER TABLE gallery ADD COLUMN folder_id INTEGER;");
+  }
+
   db.prepare(
     `UPDATE cars SET price_week = ROUND(price_per_day * 7 * 0.9) WHERE price_week IS NULL OR price_week = 0`
   ).run();

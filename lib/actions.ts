@@ -223,19 +223,52 @@ export async function deleteBooking(formData: FormData) {
 
 /* ------------------------------ Gallery ------------------------------ */
 
-export async function addGalleryImage(formData: FormData) {
+export async function createGalleryFolder(formData: FormData) {
   await requireAdmin();
-  const file = (formData.get("image") as File | null) || null;
-  const imagePath = await saveUpload(file);
-  if (!imagePath) return;
-  db.prepare("INSERT INTO gallery (url, caption_th, caption_en, category) VALUES (?, ?, ?, ?)").run(
-    imagePath,
-    str(formData.get("caption_th")),
-    str(formData.get("caption_en")),
-    "car"
-  );
+  const name = str(formData.get("name"));
+  if (!name) return;
+  db.prepare("INSERT OR IGNORE INTO gallery_folders (name) VALUES (?)").run(name);
   revalidatePath("/admin/gallery");
   revalidatePath("/gallery");
+  redirect("/admin/gallery");
+}
+
+export async function deleteGalleryFolder(formData: FormData) {
+  await requireAdmin();
+  const id = num(formData.get("id"));
+  if (!id) return;
+  const rows = db.prepare("SELECT url FROM gallery WHERE folder_id = ?").all(id) as {
+    url: string;
+  }[];
+  for (const row of rows) deleteUploaded(row.url);
+  db.prepare("DELETE FROM gallery WHERE folder_id = ?").run(id);
+  db.prepare("DELETE FROM gallery_folders WHERE id = ?").run(id);
+  revalidatePath("/admin/gallery");
+  revalidatePath("/gallery");
+}
+
+export async function addGalleryImages(formData: FormData) {
+  await requireAdmin();
+  const files = formData
+    .getAll("images")
+    .filter((f): f is File => f instanceof File && f.size > 0);
+  if (files.length === 0) return;
+  const folderId = num(formData.get("folder_id")) || null;
+  const caption_th = str(formData.get("caption_th"));
+  const caption_en = str(formData.get("caption_en"));
+  let saved = 0;
+  for (const file of files) {
+    const imagePath = await saveUpload(file);
+    if (!imagePath) continue;
+    db.prepare(
+      "INSERT INTO gallery (url, caption_th, caption_en, folder_id) VALUES (?, ?, ?, ?)"
+    ).run(imagePath, caption_th, caption_en, folderId);
+    saved++;
+  }
+  if (saved > 0) {
+    revalidatePath("/admin/gallery");
+    revalidatePath("/gallery");
+  }
   redirect("/admin/gallery");
 }
 
