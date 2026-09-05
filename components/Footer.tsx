@@ -31,6 +31,7 @@ export default function Footer({ t, lang }: { t: Dict; lang: string }) {
             {[
               { href: "/cars", label: t.nav.cars },
               { href: "/booking", label: t.nav.booking },
+              { href: "/booking/track", label: t.nav.checkStatus },
               { href: "/gallery", label: t.nav.gallery },
               { href: "/tourism", label: t.nav.tourism },
               { href: "/reviews", label: t.nav.reviews },

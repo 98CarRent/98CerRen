@@ -14,6 +14,7 @@ export default function Navbar() {
     { href: "/cars", label: t.nav.cars },
     { href: "/gallery", label: t.nav.gallery },
     { href: "/booking", label: t.nav.booking },
+    { href: "/booking/track", label: t.nav.checkStatus },
     { href: "/tourism", label: t.nav.tourism },
     { href: "/reviews", label: t.nav.reviews },
     { href: "/#contact", label: t.nav.contact },
