@@ -50,7 +50,7 @@ export default function TourismTabs({
           return (
             <article
               key={p.id}
-              className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              className="group lift overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
             >
               <div className="aspect-[16/9] overflow-hidden bg-slate-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

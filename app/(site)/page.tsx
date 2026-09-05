@@ -78,13 +78,13 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/booking"
-                className="rounded-xl bg-gradient-to-r bg-brand-grad px-7 py-3.5 font-bold text-white shadow-xl shadow-brand transition hover:brightness-110"
+                className="lift rounded-xl bg-brand-grad px-7 py-3.5 font-bold text-white shadow-xl shadow-brand hover:brightness-110"
               >
                 {t.hero.ctaBook} →
               </Link>
               <Link
                 href="/cars"
-                className="rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 font-bold text-white backdrop-blur transition hover:bg-white/10"
+                className="lift rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 font-bold text-white backdrop-blur hover:bg-white/10"
               >
                 {t.hero.ctaCars}
               </Link>
@@ -129,7 +129,7 @@ export default async function HomePage() {
           ].map((w) => (
             <div
               key={w.title}
-              className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg"
+              className="lift rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm"
             >
               <span className="text-3xl">{w.icon}</span>
               <h3 className="mt-3 font-extrabold text-slate-900">{w.title}</h3>
@@ -175,7 +175,7 @@ export default async function HomePage() {
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {reviews.map((r) => (
-              <div key={r.id} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div key={r.id} className="lift rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <Stars n={r.rating} />
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">
                   “{r.comment || "—"}”
@@ -193,14 +193,14 @@ export default async function HomePage() {
           <h2 className="text-3xl font-black sm:text-4xl">{t.home.contactCta}</h2>
           <p className="mt-3 text-brand-pale">{t.home.contactCtaSub}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="tel:0615493256" className="rounded-xl bg-white px-6 py-3.5 font-bold text-brand-strong shadow-xl transition hover:bg-brand-soft">
+            <a href="tel:0615493256" className="lift rounded-xl bg-white px-6 py-3.5 font-bold text-brand-strong shadow-xl hover:bg-brand-soft">
               📞 {t.home.callNow} · 061-5493256
             </a>
             <a
               href="https://line.me/ti/p/~98CarRent"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl bg-emerald-500 px-6 py-3.5 font-bold text-white shadow-xl transition hover:bg-emerald-600"
+              className="lift rounded-xl bg-emerald-500 px-6 py-3.5 font-bold text-white shadow-xl hover:bg-emerald-600"
             >
               💬 {t.home.lineNow} · 98CarRent
             </a>
@@ -208,7 +208,7 @@ export default async function HomePage() {
               href="https://www.facebook.com/profile.php?id=100066806268712"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl bg-white/10 px-6 py-3.5 font-bold text-white ring-1 ring-white/30 transition hover:bg-white/20"
+              className="lift rounded-xl bg-white/10 px-6 py-3.5 font-bold text-white ring-1 ring-white/30 hover:bg-white/20"
             >
               📘 {t.home.fbNow}
             </a>

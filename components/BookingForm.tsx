@@ -265,7 +265,7 @@ export default function BookingForm({
 
       <button
         type="submit"
-        className="w-full rounded-xl bg-brand px-6 py-4 text-lg font-bold text-white shadow-xl shadow-brand transition hover:bg-brand-strong"
+        className="lift w-full rounded-xl bg-brand px-6 py-4 text-lg font-bold text-white shadow-xl shadow-brand hover:bg-brand-strong"
       >
         {t.booking.submit} →
       </button>

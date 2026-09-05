@@ -56,7 +56,7 @@ export default function LoginForm() {
           </div>
           <button
             type="submit"
-            className="w-full rounded-xl bg-brand px-6 py-3.5 font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
+            className="lift w-full rounded-xl bg-brand px-6 py-3.5 font-bold text-white shadow-lg shadow-brand hover:bg-brand-strong"
           >
             {t.login.submit} →
           </button>

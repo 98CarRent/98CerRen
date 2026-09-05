@@ -156,6 +156,20 @@ img {
     0 4px 6px -4px color-mix(in srgb, var(--brand) 20%, transparent);
 }
 
+/* ===== Micro-interactions (hover lift) ===== */
+.lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease,
+    background-color 0.25s ease, border-color 0.25s ease;
+}
+.lift:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 20px 35px -14px color-mix(in srgb, var(--brand) 35%, transparent),
+    0 10px 18px -8px rgba(15, 23, 42, 0.12);
+}
+.lift:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
 /* ===== Background theme system ===== */
 [data-bg="gray"] {
   --web-bg: #eef2f7;

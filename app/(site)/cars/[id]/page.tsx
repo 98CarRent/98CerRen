@@ -38,13 +38,13 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2">
         <div>
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+          <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
             {car.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={car.image}
                 alt={name}
-                className="aspect-[4/3] w-full object-cover"
+                className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
               />
             ) : (
               <div className="flex aspect-[4/3] w-full items-center justify-center text-7xl">
@@ -134,13 +134,13 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href={`/booking?car=${car.id}`}
-              className="flex-1 rounded-xl bg-brand px-6 py-3.5 text-center text-lg font-bold text-white shadow-xl shadow-brand transition hover:bg-brand-strong"
+              className="lift flex-1 rounded-xl bg-brand px-6 py-3.5 text-center text-lg font-bold text-white shadow-xl shadow-brand hover:bg-brand-strong"
             >
               {t.car.book} →
             </Link>
             <Link
               href="/booking"
-              className="rounded-xl border border-slate-300 px-6 py-3.5 font-bold text-slate-700 transition hover:border-brand hover:text-brand-strong"
+              className="lift rounded-xl border border-slate-300 px-6 py-3.5 font-bold text-slate-700 hover:border-brand hover:text-brand-strong"
             >
               {t.booking.title}
             </Link>

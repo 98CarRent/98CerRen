@@ -17,7 +17,7 @@ export default function CarCard({ car, t }: { car: Car; t: Dict }) {
         : "bg-slate-200 text-slate-600";
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-brand">
+    <article className="group lift overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <Link href={`/cars/${car.id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
           {car.image ? (
@@ -79,13 +79,13 @@ export default function CarCard({ car, t }: { car: Car; t: Dict }) {
         <div className="flex gap-2">
           <Link
             href={`/booking?car=${car.id}`}
-            className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-bold text-white transition hover:bg-brand-strong"
+            className="lift flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-bold text-white hover:bg-brand-strong"
           >
             {t.car.book}
           </Link>
           <Link
             href={`/cars/${car.id}`}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand-strong"
+            className="lift rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-brand hover:text-brand-strong"
           >
             {t.car.details}
           </Link>
