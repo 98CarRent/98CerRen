@@ -60,15 +60,19 @@ export default function CarCard({ car, t }: { car: Car; t: Dict }) {
               {car.fuel === "diesel" ? t.car.diesel : t.car.petrol}
             </p>
           </div>
-          <div className="text-right">
-            <p className="text-lg font-black text-brand-strong">
-              {formatBaht(car.price_per_day)}{" "}
-              <span className="text-xs font-semibold text-slate-500">/ {t.car.priceDaily}</span>
-            </p>
-            <p className="mt-1 text-[11px] font-medium text-slate-500">
-              {t.car.priceWeekly} {formatBaht(car.price_week)} · {t.car.priceMonthly}{" "}
-              {formatBaht(car.price_month)}
-            </p>
+          <div className="space-y-1 text-right text-sm">
+            <div className="flex items-baseline justify-end gap-1.5">
+              <span className="font-medium text-slate-500">{t.car.priceDaily}</span>
+              <span className="font-black text-brand-strong">{formatBaht(car.price_per_day)}</span>
+            </div>
+            <div className="flex items-baseline justify-end gap-1.5">
+              <span className="font-medium text-slate-500">{t.car.priceWeekly}</span>
+              <span className="font-black text-brand-strong">{formatBaht(car.price_week)}</span>
+            </div>
+            <div className="flex items-baseline justify-end gap-1.5">
+              <span className="font-medium text-slate-500">{t.car.priceMonthly}</span>
+              <span className="font-black text-brand-strong">{formatBaht(car.price_month)}</span>
+            </div>
           </div>
         </div>
 

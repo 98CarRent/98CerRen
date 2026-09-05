@@ -239,10 +239,26 @@ export default function BookingForm({
             <p className="text-2xl font-black text-brand-strong">
               {total.toLocaleString()} <span className="text-sm">{t.common.baht}</span>
             </p>
-            <p className="mt-1 text-xs font-medium text-slate-500">
-              ⏳ {t.car.priceWeekly} {car.price_week.toLocaleString()} · {t.car.priceMonthly}{" "}
-              {car.price_month.toLocaleString()} {t.common.baht}
-            </p>
+            <div className="mt-2 space-y-0.5 text-xs">
+              <div className="flex items-baseline justify-end gap-1.5">
+                <span className="font-medium text-slate-500">{t.car.priceDaily}</span>
+                <span className="font-bold text-slate-700">
+                  {car.price_per_day.toLocaleString()} {t.common.baht}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-end gap-1.5">
+                <span className="font-medium text-slate-500">{t.car.priceWeekly}</span>
+                <span className="font-bold text-slate-700">
+                  {car.price_week.toLocaleString()} {t.common.baht}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-end gap-1.5">
+                <span className="font-medium text-slate-500">{t.car.priceMonthly}</span>
+                <span className="font-bold text-slate-700">
+                  {car.price_month.toLocaleString()} {t.common.baht}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       )}

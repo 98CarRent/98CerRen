@@ -82,24 +82,30 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
 
           <h1 className="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">{name}</h1>
 
-          <div className="mt-4 rounded-2xl border border-brand-soft bg-brand-soft p-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-brand-strong">
-                {formatBaht(car.price_per_day)}
-              </span>
-              <span className="font-semibold text-slate-500">/ {t.car.priceDaily}</span>
+          <div className="mt-4 rounded-2xl border border-brand-soft bg-brand-soft p-5">
+            <div className="space-y-2 text-base">
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="font-semibold text-slate-600">{t.car.priceDaily}</span>
+                <span className="font-black text-brand-strong">
+                  {formatBaht(car.price_per_day)} {t.common.baht}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="font-semibold text-slate-600">{t.car.priceWeekly}</span>
+                <span className="font-black text-brand-strong">
+                  {formatBaht(car.price_week)} {t.common.baht}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="font-semibold text-slate-600">{t.car.priceMonthly}</span>
+                <span className="font-black text-brand-strong">
+                  {formatBaht(car.price_month)} {t.common.baht}
+                </span>
+              </div>
             </div>
-            <div className="mt-3 flex flex-wrap gap-2 text-sm">
-              <span className="rounded-lg bg-white px-3 py-2 font-bold text-slate-800 ring-1 ring-brand-soft">
-                {t.car.priceWeekly}{" "}
-                <span className="text-brand-strong">{formatBaht(car.price_week)}</span>
-              </span>
-              <span className="rounded-lg bg-white px-3 py-2 font-bold text-slate-800 ring-1 ring-brand-soft">
-                {t.car.priceMonthly}{" "}
-                <span className="text-brand-strong">{formatBaht(car.price_month)}</span>
-              </span>
-            </div>
-            <p className="mt-3 text-xs font-medium text-slate-500">💡 {t.car.priceNote}</p>
+            <p className="mt-4 border-t border-brand-softer pt-3 text-xs font-medium text-slate-500">
+              💡 {t.car.priceNote}
+            </p>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
