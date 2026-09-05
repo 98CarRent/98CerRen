@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: var(--web-bg);
   color: var(--foreground);
   font-family: var(--font-sarabun), ui-sans-serif, system-ui, sans-serif;
 }
@@ -40,6 +40,7 @@ img {
 
 /* ===== Brand theme system ===== */
 :root {
+  --web-bg: #ffffff;
   --brand: #2563eb;
   --brand-strong: #1d4ed8;
   --brand-deep: #1e3a8a;
@@ -153,4 +154,18 @@ img {
 .shadow-brand {
   box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--brand) 30%, transparent),
     0 4px 6px -4px color-mix(in srgb, var(--brand) 20%, transparent);
+}
+
+/* ===== Background theme system ===== */
+[data-bg="gray"] {
+  --web-bg: #eef2f7;
+}
+[data-bg="cream"] {
+  --web-bg: #fdf7ec;
+}
+[data-bg="mist"] {
+  --web-bg: #eef6ff;
+}
+[data-bg="rose"] {
+  --web-bg: #fdf2f4;
 }
