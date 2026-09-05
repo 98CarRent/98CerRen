@@ -5,6 +5,7 @@ import { getDict } from "@/lib/lang";
 import { getLang } from "@/lib/lang-server";
 import { setBookingStatus, deleteBooking } from "@/lib/actions";
 import DeleteFormButton from "@/components/admin/DeleteFormButton";
+import ConfirmFormButton from "@/components/admin/ConfirmFormButton";
 import { formatBaht } from "@/lib/money";
 import type { BookingWithCar } from "@/lib/types";
 
@@ -125,23 +126,31 @@ export default async function BookingDetailPage(props: PageProps) {
             <div className="mt-4 space-y-2">
               {actions
                 .filter((a) => a.status !== booking.status)
-                .map((a) => (
-                  <form key={a.status} action={setBookingStatus}>
-                    <input type="hidden" name="id" value={booking.id} />
-                    <input type="hidden" name="status" value={a.status} />
-                    <button
-                      className={`w-full rounded-xl px-4 py-3 text-sm font-bold transition ${
-                        a.status === "confirmed"
-                          ? "bg-brand text-white hover:bg-brand-strong"
-                          : a.status === "completed"
-                            ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                            : "bg-amber-500 text-white hover:bg-amber-600"
-                      }`}
+                .map((a) => {
+                  const cls =
+                    a.status === "confirmed"
+                      ? "bg-brand text-white hover:bg-brand-strong"
+                      : a.status === "completed"
+                        ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                        : "bg-amber-500 text-white hover:bg-amber-600";
+                  const confirm =
+                    a.status === "confirmed"
+                      ? t.admin.markConfirmedConfirm
+                      : a.status === "completed"
+                        ? t.admin.markCompletedConfirm
+                        : t.admin.markCanceledConfirm;
+                  return (
+                    <ConfirmFormButton
+                      key={a.status}
+                      action={setBookingStatus}
+                      fields={{ id: booking.id, status: a.status }}
+                      confirmText={confirm}
+                      className={`w-full rounded-xl px-4 py-3 text-sm font-bold transition ${cls}`}
                     >
                       ✓ {a.label}
-                    </button>
-                  </form>
-                ))}
+                    </ConfirmFormButton>
+                  );
+                })}
               {actions.every((a) => a.status === booking.status) && (
                 <p className="text-sm text-slate-400">—</p>
               )}
