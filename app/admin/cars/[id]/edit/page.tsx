@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import db from "@/lib/db";
 import { getDict } from "@/lib/lang";
 import { getLang } from "@/lib/lang-server";
-import { addCarImage, removeCarImage } from "@/lib/actions";
+import { removeCarImage } from "@/lib/actions";
 import CarForm from "@/components/admin/CarForm";
+import CarImageUpload from "@/components/admin/CarImageUpload";
 import DeleteFormButton from "@/components/admin/DeleteFormButton";
 import type { Car } from "@/lib/types";
 
@@ -37,21 +38,9 @@ export default async function EditCarPage(props: PageProps<"/admin/cars/[id]/edi
 
       <div className="mt-8 max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="font-black text-slate-900">{t.car.photos}</h2>
-        <p className="text-sm text-slate-500">{t.car.addPhoto}</p>
+        <p className="text-sm text-slate-500">{t.car.emptyImage}</p>
 
-        <form action={addCarImage} className="mt-4 flex flex-wrap items-center gap-3">
-          <input type="hidden" name="id" value={car.id} />
-          <input
-            type="file"
-            name="images"
-            accept="image/*"
-            multiple
-            className="flex-1 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-brand-strong"
-          />
-          <button className="rounded-lg bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-strong">
-            {t.gallery.add} →
-          </button>
-        </form>
+        <CarImageUpload carId={car.id} btnLabel={t.car.addPhoto} hint={t.car.addPhotoHint} />
 
         {images.length > 0 && (
           <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4">

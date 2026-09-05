@@ -92,6 +92,7 @@ export const dictionaries = {
       addPhoto: "เพิ่มรูป",
       photos: "รูปภาพ",
       emptyImage: "ยังไม่มีรูป",
+      addPhotoHint: "ลากรูปมาวางในกรอบ หรือกดเลือกไฟล์ (เลือกได้หลายรูปพร้อมกัน)",
     },
     booking: {
       title: "จองรถเช่า",
@@ -362,6 +363,7 @@ export const dictionaries = {
       addPhoto: "Add Photo",
       photos: "Photos",
       emptyImage: "No photo yet",
+      addPhotoHint: "Drag photos here or click to choose — you can select several at once",
     },
     booking: {
       title: "Book a Car",
