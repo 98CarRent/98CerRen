@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import db from "@/lib/db";
 import { getDict } from "@/lib/lang";
 import { getLang } from "@/lib/lang-server";
@@ -27,7 +29,7 @@ export default async function GalleryPage() {
       url: ci.url,
       caption: `${ci.brand} ${ci.model}`,
     })),
-  ];
+  ].filter((item) => fs.existsSync(path.join(process.cwd(), "public", item.url)));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
