@@ -129,10 +129,15 @@ export async function deleteCar(formData: FormData) {
 export async function addCarImage(formData: FormData) {
   await requireAdmin();
   const id = num(formData.get("id"));
-  const file = (formData.get("image") as File | null) || null;
-  if (!id || !file || file.size === 0) return;
-  const path = await saveUpload(file);
-  if (path) await db.prepare("INSERT INTO car_images (car_id, url) VALUES (?, ?)").run(id, path);
+  const files = formData
+    .getAll("images")
+    .filter((f): f is File => f instanceof File && f.size > 0);
+  if (!id || files.length === 0) return;
+  const insert = db.prepare("INSERT INTO car_images (car_id, url) VALUES (?, ?)");
+  for (const file of files) {
+    const path = await saveUpload(file);
+    if (path) await insert.run(id, path);
+  }
   revalidatePath("/admin/cars");
   revalidatePath(`/cars/${id}`);
 }

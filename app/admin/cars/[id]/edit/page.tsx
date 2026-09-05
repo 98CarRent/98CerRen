@@ -43,8 +43,9 @@ export default async function EditCarPage(props: PageProps<"/admin/cars/[id]/edi
           <input type="hidden" name="id" value={car.id} />
           <input
             type="file"
-            name="image"
+            name="images"
             accept="image/*"
+            multiple
             className="flex-1 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-brand-strong"
           />
           <button className="rounded-lg bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-strong">
