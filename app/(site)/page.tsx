@@ -1,8 +1,11 @@
 import Link from "next/link";
+import fs from "fs";
+import path from "path";
 import db from "@/lib/db";
 import { getDict } from "@/lib/lang";
 import { getLang } from "@/lib/lang-server";
 import CarCard from "@/components/CarCard";
+import HeroGallery from "@/components/HeroGallery";
 import type { Car, Review } from "@/lib/types";
 
 function Stars({ n }: { n: number }) {
@@ -18,6 +21,7 @@ function Stars({ n }: { n: number }) {
 export default async function HomePage() {
   const lang = await getLang();
   const t = getDict(lang);
+  const isEn = lang === "en";
 
   const cars = db
     .prepare(
@@ -29,7 +33,39 @@ export default async function HomePage() {
     .prepare("SELECT * FROM reviews ORDER BY id DESC LIMIT 3")
     .all() as Review[];
 
-  const isEn = lang === "en";
+  const exists = (url: string) => fs.existsSync(path.join(process.cwd(), "public", url));
+  const folderRows = db.prepare("SELECT * FROM gallery_folders ORDER BY id").all() as {
+    id: number;
+    name: string;
+  }[];
+  const galleryRows = db
+    .prepare("SELECT folder_id, url FROM gallery ORDER BY id")
+    .all() as { folder_id: number | null; url: string }[];
+  const firstByFolder = new Map<number | null, string>();
+  const countByFolder = new Map<number | null, number>();
+  for (const g of galleryRows) {
+    if (!exists(g.url)) continue;
+    if (!firstByFolder.has(g.folder_id)) firstByFolder.set(g.folder_id, g.url);
+    countByFolder.set(g.folder_id, (countByFolder.get(g.folder_id) || 0) + 1);
+  }
+  const slides = [
+    ...folderRows
+      .filter((f) => firstByFolder.has(f.id))
+      .map((f) => ({
+        url: firstByFolder.get(f.id)!,
+        name: f.name,
+        count: countByFolder.get(f.id)!,
+      })),
+    ...(firstByFolder.has(null)
+      ? [
+          {
+            url: firstByFolder.get(null)!,
+            name: isEn ? "General" : t.gallery.uncategorized,
+            count: countByFolder.get(null)!,
+          },
+        ]
+      : []),
+  ];
 
   return (
     <div>
@@ -104,15 +140,7 @@ export default async function HomePage() {
           </div>
 
           <div className="relative hidden items-center justify-center lg:flex">
-            <div className="relative h-[420px] w-full max-w-md">
-              <div className="absolute inset-0 rotate-3 rounded-3xl bg-brand-strong-25" />
-              <div className="absolute inset-0 -rotate-3 flex items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900 shadow-2xl">
-                <span className="text-[11rem] leading-none drop-shadow-2xl">🚗</span>
-                <span className="absolute bottom-8 right-8 rounded-xl bg-brand-15 px-4 py-2 text-sm font-bold text-brand-pale">
-                  Mukdahan City
-                </span>
-              </div>
-            </div>
+            <HeroGallery slides={slides} lang={lang} />
           </div>
         </div>
       </section>
