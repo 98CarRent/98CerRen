@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createBooking } from "@/lib/actions";
 import { calcPrice } from "@/lib/money";
+import DatePicker from "./DatePicker";
 import type { Dict } from "@/lib/lang";
 import type { Car } from "@/lib/types";
 
@@ -14,10 +15,12 @@ export default function BookingForm({
   cars,
   t,
   blocked,
+  lang,
 }: {
   cars: Car[];
   t: Dict;
   blocked: { carId: number; start: string; end: string }[];
+  lang: "th" | "en";
 }) {
   const params = useSearchParams();
   const preselected = Number(params.get("car") || 0);
@@ -37,27 +40,24 @@ export default function BookingForm({
     [blocked, carId]
   );
 
-  function dateCollides(s: string, e: string): { start: string; end: string } | undefined {
-    return blockedRanges.find((b) => s <= b.end && b.start <= e);
+  function overlapsAny(s: string, e: string): boolean {
+    return blockedRanges.some((b) => s <= b.end && b.start <= e);
   }
+
+  const startIsDisabled = (d: string) => overlapsAny(d, end || d);
+  const endIsDisabled = (d: string) => overlapsAny(start || d, d);
 
   function pickStart(v: string) {
     setError("");
-    if (carId && dateCollides(v, v)) {
-      setStart("");
-      setError(t.booking.dateBusy);
-      return;
-    }
+    if (overlapsAny(v, end || v)) return;
     setStart(v);
+    if (end && v > end) setEnd("");
   }
 
   function pickEnd(v: string) {
     setError("");
-    if (carId && start && dateCollides(start, v)) {
-      setEnd("");
-      setError(t.booking.dateBusy);
-      return;
-    }
+    const s = start || v;
+    if (overlapsAny(s, v)) return;
     setEnd(v);
   }
 
@@ -80,7 +80,7 @@ export default function BookingForm({
       setError(t.booking.requiredField);
       return;
     }
-    if (dateCollides(start, end)) {
+    if (overlapsAny(start, end)) {
       setError(t.booking.dateBusy);
       return;
     }
@@ -105,7 +105,12 @@ export default function BookingForm({
         </label>
         <select
           value={carId}
-          onChange={(e) => setCarId(Number(e.target.value))}
+          onChange={(e) => {
+            setCarId(Number(e.target.value));
+            setStart("");
+            setEnd("");
+            setError("");
+          }}
           className={inputCls}
         >
           <option value={0}>{t.booking.selectCar}</option>
@@ -145,29 +150,33 @@ export default function BookingForm({
           <label className="mb-1.5 block text-sm font-bold text-slate-700">
             {t.booking.startDate} *
           </label>
-          <input
-            type="date"
-            min={today}
+          <DatePicker
             value={start}
-            onChange={(e) => pickStart(e.target.value)}
-            required
-            className={inputCls}
+            onChange={pickStart}
+            min={today}
+            isDisabled={startIsDisabled}
+            months={t.booking.months}
+            weekdays={t.booking.weekdays}
           />
         </div>
         <div>
           <label className="mb-1.5 block text-sm font-bold text-slate-700">
             {t.booking.endDate} *
           </label>
-          <input
-            type="date"
-            min={start || today}
+          <DatePicker
             value={end}
-            onChange={(e) => pickEnd(e.target.value)}
-            required
-            className={inputCls}
+            onChange={pickEnd}
+            min={start || today}
+            isDisabled={endIsDisabled}
+            months={t.booking.months}
+            weekdays={t.booking.weekdays}
           />
         </div>
       </div>
+
+      <p className="rounded-lg bg-slate-100 px-4 py-2.5 text-xs font-semibold text-slate-500">
+        📅 {t.booking.calHint}
+      </p>
 
       {carId && blockedRanges.length > 0 && (
         <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-xs font-semibold text-rose-600">

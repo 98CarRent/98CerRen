@@ -67,7 +67,7 @@ export default async function BookingPage({
             <p className="mt-2 max-w-2xl text-slate-500">{t.booking.subtitle}</p>
 
             <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <BookingForm cars={cars} t={t} blocked={blocked} />
+              <BookingForm cars={cars} t={t} blocked={blocked} lang={lang} />
             </div>
           </div>
 
