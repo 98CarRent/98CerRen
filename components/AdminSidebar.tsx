@@ -35,7 +35,7 @@ export default function AdminSidebar() {
       >
         <div className="flex items-center gap-3 border-b border-slate-800 px-5 py-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo-white.svg" alt="98CarRent" className="h-10 w-10" />
+          <img src="/images/logo.jpg" alt="98CarRent" className="h-10 w-10 rounded-lg object-cover" />
           <div>
             <p className="font-extrabold text-white">98CarRent</p>
             <p className="text-[11px] text-slate-400">Admin Panel</p>

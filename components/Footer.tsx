@@ -10,9 +10,9 @@ export default function Footer({ t, lang }: { t: Dict; lang: string }) {
           <div className="flex items-center gap-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/logo-white.svg"
+              src="/images/logo.jpg"
               alt="98CarRent"
-              className="h-10 w-10"
+              className="h-10 w-10 rounded-lg object-cover ring-1 ring-white/20"
             />
             <div>
               <p className="font-extrabold text-white">98CarRent</p>

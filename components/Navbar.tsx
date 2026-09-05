@@ -26,9 +26,9 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/logo.svg"
+            src="/images/logo.jpg"
             alt="98CarRent"
-            className="h-11 w-11 rounded-2xl shadow-lg shadow-brand"
+            className="h-11 w-11 rounded-2xl object-cover shadow-lg shadow-brand"
           />
           <span className="leading-tight">
             <span className="block text-lg font-extrabold tracking-tight text-slate-900">

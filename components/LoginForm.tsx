@@ -25,7 +25,7 @@ export default function LoginForm() {
         <div className="text-center">
 <span className="inline-flex">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo.svg" alt="98CarRent" className="h-16 w-16 rounded-2xl shadow-lg shadow-brand" />
+          <img src="/images/logo.jpg" alt="98CarRent" className="h-16 w-16 rounded-2xl object-cover shadow-lg shadow-brand" />
         </span>
           <h1 className="mt-4 text-2xl font-black text-slate-900">{t.login.title}</h1>
           <p className="mt-1 text-sm text-slate-500">{t.login.subtitle}</p>
