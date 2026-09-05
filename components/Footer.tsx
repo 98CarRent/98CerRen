@@ -16,7 +16,7 @@ export default function Footer({ t, lang }: { t: Dict; lang: string }) {
             />
             <div>
               <p className="font-extrabold text-white">98CarRent</p>
-              <p className="text-[11px] text-blue-300">{t.siteSlogan}</p>
+              <p className="text-[11px] text-brand-pale">{t.siteSlogan}</p>
             </div>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-slate-400">{t.footer.about}</p>
@@ -37,7 +37,7 @@ export default function Footer({ t, lang }: { t: Dict; lang: string }) {
               { href: "/admin", label: t.nav.admin },
             ].map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="transition hover:text-blue-300">
+                <Link href={l.href} className="transition hover:text-brand-pale">
                   {l.label}
                 </Link>
               </li>
@@ -67,12 +67,12 @@ export default function Footer({ t, lang }: { t: Dict; lang: string }) {
               </span>
             </li>
             <li className="flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15 text-blue-400">📘</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-15 text-brand-pale">📘</span>
               <a
                 href="https://www.facebook.com/profile.php?id=100066806268712"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="break-all transition hover:text-blue-300"
+                className="break-all transition hover:text-brand-pale"
               >
                 {contact.facebookTitle}
               </a>

@@ -10,7 +10,7 @@ const FILTERS = ["all", "pending", "confirmed", "completed", "canceled"] as cons
 
 const badge: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700",
-  confirmed: "bg-blue-100 text-blue-700",
+  confirmed: "bg-brand-softer text-brand-strong",
   completed: "bg-emerald-100 text-emerald-700",
   canceled: "bg-rose-100 text-rose-600",
 };
@@ -67,7 +67,7 @@ export default function BookingAdminTable({
             )}
             {filtered.map((b) => (
               <tr key={b.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
-                <td className="px-4 py-3 font-mono text-xs font-bold text-blue-700">
+                <td className="px-4 py-3 font-mono text-xs font-bold text-brand-strong">
                   {b.ref_code || `#${b.id}`}
                 </td>
                 <td className="px-4 py-3">
@@ -96,7 +96,7 @@ export default function BookingAdminTable({
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/bookings/${b.id}`}
-                    className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 ring-1 ring-blue-200 transition hover:bg-blue-100"
+                    className="rounded-lg bg-brand-soft px-3 py-1.5 text-xs font-bold text-brand-strong ring-1 ring-brand-soft transition hover:bg-brand-softer"
                   >
                     {t.common.edit} →
                   </Link>

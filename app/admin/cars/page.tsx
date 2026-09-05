@@ -23,7 +23,7 @@ export default async function AdminCarsPage() {
         </div>
         <Link
           href="/admin/cars/new"
-          className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+          className="rounded-xl bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
         >
           + {t.admin.addCar}
         </Link>
@@ -70,7 +70,7 @@ export default async function AdminCarsPage() {
                   </p>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
+                  <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand-strong">
                     {c.type === "with_driver" ? t.car.with_driver : t.car.self}
                   </span>
                 </td>
@@ -94,7 +94,7 @@ export default async function AdminCarsPage() {
                   <div className="flex flex-wrap gap-2">
                     <Link
                       href={`/admin/cars/${c.id}/edit`}
-                      className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 ring-1 ring-blue-200 transition hover:bg-blue-100"
+                      className="rounded-lg bg-brand-soft px-3 py-1.5 text-xs font-bold text-brand-strong ring-1 ring-brand-soft transition hover:bg-brand-softer"
                     >
                       ✏️ {t.car.edit}
                     </Link>

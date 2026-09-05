@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const statusBadge: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700 ring-amber-200",
   confirmed: "bg-emerald-100 text-emerald-700 ring-emerald-200",
-  completed: "bg-sky-100 text-sky-700 ring-sky-200",
+  completed: "bg-brand-softer text-brand-strong ring-brand-soft",
   canceled: "bg-rose-100 text-rose-700 ring-rose-200",
 };
 
@@ -78,7 +78,7 @@ export default async function TrackPage({
               >
                 {t.status[row.status as keyof typeof t.status] || row.status}
               </span>
-              <span className="text-lg font-black tracking-wider text-blue-700">
+              <span className="text-lg font-black tracking-wider text-brand-strong">
                 {row.ref_code}
               </span>
             </div>
@@ -102,7 +102,7 @@ export default async function TrackPage({
             </div>
             <div>
               <dt className="font-bold text-slate-500">{t.booking.total}</dt>
-              <dd className="mt-1 font-black text-blue-700">
+              <dd className="mt-1 font-black text-brand-strong">
                 {row.total_price.toLocaleString()} {t.common.baht}
               </dd>
             </div>
@@ -123,7 +123,7 @@ export default async function TrackPage({
       )}
 
       <p className="mt-8 text-center">
-        <Link href="/booking" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
+        <Link href="/booking" className="text-sm font-semibold text-brand hover:text-brand-strong">
           ← {t.booking.title}
         </Link>
       </p>

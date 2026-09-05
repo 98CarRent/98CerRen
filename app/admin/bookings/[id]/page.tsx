@@ -12,7 +12,7 @@ type PageProps = { params: Promise<{ id: string }> };
 
 const badge: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700",
-  confirmed: "bg-blue-100 text-blue-700",
+  confirmed: "bg-brand-softer text-brand-strong",
   completed: "bg-emerald-100 text-emerald-700",
   canceled: "bg-rose-100 text-rose-600",
 };
@@ -50,7 +50,7 @@ export default async function BookingDetailPage(props: PageProps) {
 
   return (
     <div>
-      <Link href="/admin/bookings" className="text-sm font-bold text-blue-700 hover:underline">
+      <Link href="/admin/bookings" className="text-sm font-bold text-brand-strong hover:underline">
         ← {t.admin.backToList}
       </Link>
 
@@ -59,7 +59,7 @@ export default async function BookingDetailPage(props: PageProps) {
           {t.admin.bookingDetail} #{booking.id}
         </h1>
         {booking.ref_code && (
-          <p className="rounded-lg bg-blue-50 px-4 py-2 font-mono text-sm font-bold tracking-widest text-blue-700 ring-1 ring-blue-200">
+          <p className="rounded-lg bg-brand-soft px-4 py-2 font-mono text-sm font-bold tracking-widest text-brand-strong ring-1 ring-brand-soft">
             {t.booking.refLabel}: {booking.ref_code}
           </p>
         )}
@@ -88,7 +88,7 @@ export default async function BookingDetailPage(props: PageProps) {
           <div className="mt-6 rounded-xl bg-slate-50 p-4">
             <div className="flex items-center justify-between text-sm font-bold text-slate-700">
               <span>{t.booking.total}</span>
-              <span className="text-xl font-black text-blue-700">
+              <span className="text-xl font-black text-brand-strong">
                 {formatBaht(booking.total_price)} {t.common.baht}
               </span>
             </div>
@@ -132,7 +132,7 @@ export default async function BookingDetailPage(props: PageProps) {
                     <button
                       className={`w-full rounded-xl px-4 py-3 text-sm font-bold transition ${
                         a.status === "confirmed"
-                          ? "bg-blue-600 text-white hover:bg-blue-700"
+                          ? "bg-brand text-white hover:bg-brand-strong"
                           : a.status === "completed"
                             ? "bg-emerald-600 text-white hover:bg-emerald-700"
                             : "bg-amber-500 text-white hover:bg-amber-600"

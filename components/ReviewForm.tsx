@@ -5,7 +5,7 @@ import { createReview } from "@/lib/actions";
 import type { Dict } from "@/lib/lang";
 
 const inputCls =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand-soft";
 
 export default function ReviewForm({ t }: { t: Dict }) {
   const [error, setError] = useState("");
@@ -64,12 +64,12 @@ export default function ReviewForm({ t }: { t: Dict }) {
           type="file"
           name="image"
           accept="image/*"
-          className="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
+          className="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-brand-strong"
         />
       </div>
       <button
         type="submit"
-        className="w-full rounded-xl bg-blue-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+        className="w-full rounded-xl bg-brand px-6 py-3.5 font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
       >
         {t.review.submit} →
       </button>

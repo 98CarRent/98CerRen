@@ -17,7 +17,7 @@ export default function CarCard({ car, t }: { car: Car; t: Dict }) {
         : "bg-slate-200 text-slate-600";
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/5">
+    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-brand">
       <Link href={`/cars/${car.id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
           {car.image ? (
@@ -32,7 +32,7 @@ export default function CarCard({ car, t }: { car: Car; t: Dict }) {
               🚗
             </div>
           )}
-          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-blue-700 backdrop-blur">
+          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-brand-strong backdrop-blur">
             {type}
           </span>
           <span
@@ -61,23 +61,27 @@ export default function CarCard({ car, t }: { car: Car; t: Dict }) {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-lg font-black text-blue-700">
-              {formatBaht(car.price_per_day)}
+            <p className="text-lg font-black text-brand-strong">
+              {formatBaht(car.price_per_day)}{" "}
+              <span className="text-xs font-semibold text-slate-500">/ {t.car.priceDaily}</span>
             </p>
-            <p className="text-[11px] font-medium text-slate-500">{t.car.pricePerDay}</p>
+            <p className="mt-1 text-[11px] font-medium text-slate-500">
+              {t.car.priceWeekly} {formatBaht(car.price_week)} · {t.car.priceMonthly}{" "}
+              {formatBaht(car.price_month)}
+            </p>
           </div>
         </div>
 
         <div className="flex gap-2">
           <Link
             href={`/booking?car=${car.id}`}
-            className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-center text-sm font-bold text-white transition hover:bg-blue-700"
+            className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-bold text-white transition hover:bg-brand-strong"
           >
             {t.car.book}
           </Link>
           <Link
             href={`/cars/${car.id}`}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-700"
+            className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand-strong"
           >
             {t.car.details}
           </Link>

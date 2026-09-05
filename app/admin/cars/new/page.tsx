@@ -9,7 +9,7 @@ export default async function NewCarPage() {
 
   return (
     <div>
-      <Link href="/admin/cars" className="text-sm font-bold text-blue-700 hover:underline">
+      <Link href="/admin/cars" className="text-sm font-bold text-brand-strong hover:underline">
         ← {t.admin.backToList}
       </Link>
       <h1 className="mt-2 text-2xl font-black text-slate-900">{t.admin.addCar}</h1>

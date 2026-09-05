@@ -9,6 +9,8 @@ export interface Car {
   fuel: string;
   type: "self" | "with_driver";
   price_per_day: number;
+  price_week: number;
+  price_month: number;
   deposit: number;
   status: "available" | "rented" | "maintenance";
   image: string;

@@ -25,14 +25,14 @@ export default async function AdminGalleryPage() {
           <label className="mb-1.5 block text-sm font-bold text-slate-700">{t.gallery.caption} (ไทย)</label>
           <input
             name="caption_th"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </div>
         <div>
           <label className="mb-1.5 block text-sm font-bold text-slate-700">Caption (English)</label>
           <input
             name="caption_en"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </div>
         <div>
@@ -42,10 +42,10 @@ export default async function AdminGalleryPage() {
             name="image"
             accept="image/*"
             required
-            className="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
+            className="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-brand-strong"
           />
         </div>
-        <button className="rounded-xl bg-blue-600 px-8 py-3 font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700">
+        <button className="rounded-xl bg-brand px-8 py-3 font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong">
           {t.gallery.add} →
         </button>
       </form>

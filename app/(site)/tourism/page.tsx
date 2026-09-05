@@ -16,7 +16,7 @@ export default async function TourismPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <div className="text-center">
-        <p className="text-sm font-bold uppercase tracking-[0.3em] text-blue-600">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-brand">
           {t.tourism.khor}
         </p>
         <h1 className="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">

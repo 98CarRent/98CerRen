@@ -10,7 +10,7 @@ fs.mkdirSync(dataDir, { recursive: true });
 fs.mkdirSync(uploadsDir, { recursive: true });
 
 const db = new Database(path.join(dataDir, "carent.db"));
-db.pragma("journal_mode = WAL");
+db.pragma("journal_mode = DELETE");
 db.pragma("foreign_keys = ON");
 
 export function initSchema() {
@@ -34,6 +34,8 @@ export function initSchema() {
       fuel TEXT DEFAULT 'diesel',
       type TEXT DEFAULT 'self',
       price_per_day REAL NOT NULL DEFAULT 0,
+      price_week REAL DEFAULT 0,
+      price_month REAL DEFAULT 0,
       deposit REAL DEFAULT 0,
       status TEXT DEFAULT 'available',
       image TEXT,
@@ -104,6 +106,20 @@ export function initSchema() {
       "ALTER TABLE bookings ADD COLUMN ref_code TEXT; CREATE UNIQUE INDEX IF NOT EXISTS uq_bookings_ref ON bookings(ref_code);"
     );
   }
+
+  const carCols = db.prepare("PRAGMA table_info(cars)").all() as { name: string }[];
+  if (!carCols.some((c) => c.name === "price_week")) {
+    db.exec("ALTER TABLE cars ADD COLUMN price_week REAL DEFAULT 0;");
+  }
+  if (!carCols.some((c) => c.name === "price_month")) {
+    db.exec("ALTER TABLE cars ADD COLUMN price_month REAL DEFAULT 0;");
+  }
+  db.prepare(
+    `UPDATE cars SET price_week = ROUND(price_per_day * 7 * 0.9) WHERE price_week IS NULL OR price_week = 0`
+  ).run();
+  db.prepare(
+    `UPDATE cars SET price_month = ROUND(price_per_day * 30 * 0.8) WHERE price_month IS NULL OR price_month = 0`
+  ).run();
 }
 
 function seedAdmin() {
@@ -244,6 +260,8 @@ function seedCars() {
       fuel: "diesel",
       type: "self",
       price_per_day: 1200,
+      price_week: 7560,
+      price_month: 28800,
       deposit: 5000,
       status: "available",
       description_th:
@@ -262,6 +280,8 @@ function seedCars() {
       fuel: "petrol",
       type: "with_driver",
       price_per_day: 1800,
+      price_week: 11340,
+      price_month: 43200,
       deposit: 8000,
       status: "available",
       description_th:
@@ -280,6 +300,8 @@ function seedCars() {
       fuel: "petrol",
       type: "self",
       price_per_day: 900,
+      price_week: 5670,
+      price_month: 21600,
       deposit: 3000,
       status: "available",
       description_th:
@@ -298,6 +320,8 @@ function seedCars() {
       fuel: "diesel",
       type: "self",
       price_per_day: 1100,
+      price_week: 6930,
+      price_month: 26400,
       deposit: 5000,
       status: "rented",
       description_th:
@@ -316,6 +340,8 @@ function seedCars() {
       fuel: "petrol",
       type: "with_driver",
       price_per_day: 1600,
+      price_week: 10080,
+      price_month: 38400,
       deposit: 7000,
       status: "available",
       description_th:
@@ -334,6 +360,8 @@ function seedCars() {
       fuel: "diesel",
       type: "self",
       price_per_day: 1500,
+      price_week: 9450,
+      price_month: 36000,
       deposit: 7000,
       status: "maintenance",
       description_th:
@@ -345,8 +373,8 @@ function seedCars() {
   ];
 
   const insert = db.prepare(
-    `INSERT OR IGNORE INTO cars (brand, model, year, plate, seats, transmission, fuel, type, price_per_day, deposit, status, image, description_th, description_en)
-     VALUES (@brand, @model, @year, @plate, @seats, @transmission, @fuel, @type, @price_per_day, @deposit, @status, @image, @description_th, @description_en)`
+    `INSERT OR IGNORE INTO cars (brand, model, year, plate, seats, transmission, fuel, type, price_per_day, price_week, price_month, deposit, status, image, description_th, description_en)
+     VALUES (@brand, @model, @year, @plate, @seats, @transmission, @fuel, @type, @price_per_day, @price_week, @price_month, @deposit, @status, @image, @description_th, @description_en)`
   );
   const tx = db.transaction((rows: typeof cars) => {
     for (const row of rows) insert.run(row as never);

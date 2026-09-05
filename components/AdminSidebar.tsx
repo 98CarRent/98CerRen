@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useI18n } from "@/components/LanguageProvider";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { logoutAction } from "@/lib/actions";
 
 export default function AdminSidebar() {
@@ -49,7 +50,7 @@ export default function AdminSidebar() {
               onClick={() => setOpen(false)}
               className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition ${
                 isActive(l.href)
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25"
+                  ? "bg-brand text-white shadow-lg shadow-brand"
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`}
             >
@@ -59,7 +60,10 @@ export default function AdminSidebar() {
           ))}
         </nav>
 
-        <div className="space-y-1 border-t border-slate-800 px-3 py-4">
+        <div className="space-y-3 border-t border-slate-800 px-3 py-4">
+          <div className="flex items-center justify-center rounded-xl bg-slate-800/60 py-3">
+            <ThemeSwitcher title="เปลี่ยนโทนสีเว็บ" />
+          </div>
           <button
             onClick={() => setLang(lang === "th" ? "en" : "th")}
             className="w-full rounded-xl px-4 py-2.5 text-left text-sm font-bold text-slate-300 hover:bg-slate-800"

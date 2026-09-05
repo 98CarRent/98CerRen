@@ -6,7 +6,7 @@ import { loginAction } from "@/lib/actions";
 import { useI18n } from "@/components/LanguageProvider";
 
 const inputCls =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand-soft";
 
 export default function LoginForm() {
   const { t } = useI18n();
@@ -25,7 +25,7 @@ export default function LoginForm() {
         <div className="text-center">
 <span className="inline-flex">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo.svg" alt="98CarRent" className="h-16 w-16 rounded-2xl shadow-lg shadow-blue-600/30" />
+          <img src="/images/logo.svg" alt="98CarRent" className="h-16 w-16 rounded-2xl shadow-lg shadow-brand" />
         </span>
           <h1 className="mt-4 text-2xl font-black text-slate-900">{t.login.title}</h1>
           <p className="mt-1 text-sm text-slate-500">{t.login.subtitle}</p>
@@ -56,13 +56,13 @@ export default function LoginForm() {
           </div>
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+            className="w-full rounded-xl bg-brand px-6 py-3.5 font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
           >
             {t.login.submit} →
           </button>
         </form>
         <div className="mt-6 text-center">
-          <Link href="/" className="text-sm font-semibold text-blue-700 hover:underline">
+          <Link href="/" className="text-sm font-semibold text-brand-strong hover:underline">
             ← {t.login.backHome}
           </Link>
         </div>

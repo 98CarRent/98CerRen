@@ -77,7 +77,7 @@ export default async function AdminDashboard() {
     .all() as (BookingWithCar & { brand: string; model: string })[];
 
   const metrics = [
-    { label: t.dashboard.totalCars, value: `${totalCars}`, icon: "🚗", color: "from-blue-600 to-sky-500" },
+    { label: t.dashboard.totalCars, value: `${totalCars}`, icon: "🚗", color: "bg-brand-grad" },
     { label: t.dashboard.availableCars, value: `${availableCars}`, icon: "✅", color: "from-emerald-500 to-teal-500" },
     { label: t.dashboard.totalBookings, value: `${totalBookings}`, icon: "📅", color: "from-violet-500 to-purple-500" },
     { label: t.dashboard.pendingBookings, value: `${pendingBookings}`, icon: "⏳", color: "from-amber-500 to-orange-500" },
@@ -96,7 +96,7 @@ export default async function AdminDashboard() {
         <div className="flex gap-2">
           <Link
             href="/admin/cars/new"
-            className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+            className="rounded-xl bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
           >
             + {t.admin.addCar}
           </Link>
@@ -136,7 +136,7 @@ export default async function AdminDashboard() {
       <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <h2 className="font-black text-slate-900">{t.dashboard.latestBookings}</h2>
-          <Link href="/admin/bookings" className="text-sm font-bold text-blue-700 hover:underline">
+          <Link href="/admin/bookings" className="text-sm font-bold text-brand-strong hover:underline">
             {t.dashboard.viewAll} →
           </Link>
         </div>
@@ -165,7 +165,7 @@ export default async function AdminDashboard() {
                         b.status === "pending"
                           ? "bg-amber-100 text-amber-700"
                           : b.status === "confirmed"
-                            ? "bg-blue-100 text-blue-700"
+                            ? "bg-brand-softer text-brand-strong"
                             : b.status === "completed"
                               ? "bg-emerald-100 text-emerald-700"
                               : "bg-rose-100 text-rose-600"

@@ -38,7 +38,7 @@ export default function CarsViewer({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={t.car.search}
-          className="min-w-[180px] flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+          className="min-w-[180px] flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand"
         />
         <select
           value={type}

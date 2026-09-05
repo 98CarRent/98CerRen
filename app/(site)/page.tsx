@@ -36,17 +36,17 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-900 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.25),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(37,99,235,0.35),transparent_60%)]" />
-        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-sky-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-blue-700/25 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-brand-strong/25 blur-3xl" />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 lg:grid-cols-2 lg:py-28">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-sky-300">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-40 bg-brand-10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-pale">
               🚙 {t.siteSlogan}
             </span>
             <h1 className="mt-6 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
               {t.hero.title}
-              <span className="mt-3 block bg-gradient-to-r from-sky-300 to-blue-400 bg-clip-text text-transparent">
+              <span className="mt-3 block bg-brand-text-grad">
                 98CarRent
               </span>
             </h1>
@@ -56,7 +56,7 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/booking"
-                className="rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3.5 font-bold text-white shadow-xl shadow-blue-600/30 transition hover:brightness-110"
+                className="rounded-xl bg-gradient-to-r bg-brand-grad px-7 py-3.5 font-bold text-white shadow-xl shadow-brand transition hover:brightness-110"
               >
                 {t.hero.ctaBook} →
               </Link>
@@ -74,7 +74,7 @@ export default async function HomePage() {
                 { n: "100%", l: isEn ? "Service" : "บริการ" },
               ].map((s) => (
                 <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur">
-                  <p className="text-2xl font-black text-sky-300">{s.n}</p>
+                  <p className="text-2xl font-black text-brand-pale">{s.n}</p>
                   <p className="text-xs text-slate-400">{s.l}</p>
                 </div>
               ))}
@@ -83,10 +83,10 @@ export default async function HomePage() {
 
           <div className="relative hidden items-center justify-center lg:flex">
             <div className="relative h-[420px] w-full max-w-md">
-              <div className="absolute inset-0 rotate-3 rounded-3xl bg-gradient-to-br from-sky-500/30 to-blue-800/30" />
+              <div className="absolute inset-0 rotate-3 rounded-3xl bg-brand-strong-25" />
               <div className="absolute inset-0 -rotate-3 flex items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900 shadow-2xl">
                 <span className="text-[11rem] leading-none drop-shadow-2xl">🚗</span>
-                <span className="absolute bottom-8 right-8 rounded-xl bg-sky-400/15 px-4 py-2 text-sm font-bold text-sky-300">
+                <span className="absolute bottom-8 right-8 rounded-xl bg-brand-15 px-4 py-2 text-sm font-bold text-brand-pale">
                   Mukdahan City
                 </span>
               </div>
@@ -127,7 +127,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/cars"
-              className="font-bold text-blue-700 underline-offset-4 hover:underline"
+              className="font-bold text-brand-strong underline-offset-4 hover:underline"
             >
               {t.home.viewAll} →
             </Link>
@@ -147,7 +147,7 @@ export default async function HomePage() {
             <div>
               <h2 className="text-3xl font-black text-slate-900">{t.review.title}</h2>
             </div>
-            <Link href="/reviews" className="font-bold text-blue-700 underline-offset-4 hover:underline">
+            <Link href="/reviews" className="font-bold text-brand-strong underline-offset-4 hover:underline">
               {t.nav.reviews} →
             </Link>
           </div>
@@ -166,12 +166,12 @@ export default async function HomePage() {
       )}
 
       {/* Contact CTA */}
-      <section className="bg-gradient-to-r from-blue-700 to-sky-600 py-16 text-white">
+      <section className="bg-brand-grad py-16 text-white">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <h2 className="text-3xl font-black sm:text-4xl">{t.home.contactCta}</h2>
-          <p className="mt-3 text-blue-100">{t.home.contactCtaSub}</p>
+          <p className="mt-3 text-brand-pale">{t.home.contactCtaSub}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="tel:0615493256" className="rounded-xl bg-white px-6 py-3.5 font-bold text-blue-700 shadow-xl transition hover:bg-blue-50">
+            <a href="tel:0615493256" className="rounded-xl bg-white px-6 py-3.5 font-bold text-brand-strong shadow-xl transition hover:bg-brand-soft">
               📞 {t.home.callNow} · 061-5493256
             </a>
             <a

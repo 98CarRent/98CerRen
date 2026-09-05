@@ -25,8 +25,8 @@ export default function TourismTabs({
           onClick={() => setCity("mukdahan")}
           className={`rounded-xl px-6 py-3 font-bold transition ${
             city === "mukdahan"
-              ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25"
-              : "border border-slate-300 bg-white text-slate-700 hover:border-blue-400"
+              ? "bg-brand text-white shadow-lg shadow-brand"
+              : "border border-slate-300 bg-white text-slate-700 hover:border-brand"
           }`}
         >
           🏙️ {t.tourism.mukdahan}
@@ -35,8 +35,8 @@ export default function TourismTabs({
           onClick={() => setCity("nakhonphanom")}
           className={`rounded-xl px-6 py-3 font-bold transition ${
             city === "nakhonphanom"
-              ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25"
-              : "border border-slate-300 bg-white text-slate-700 hover:border-blue-400"
+              ? "bg-brand text-white shadow-lg shadow-brand"
+              : "border border-slate-300 bg-white text-slate-700 hover:border-brand"
           }`}
         >
           🛕 {t.tourism.nakhonphanom}
@@ -73,9 +73,9 @@ export default function TourismTabs({
         })}
       </div>
 
-      <div className="mt-12 rounded-2xl border border-blue-100 bg-blue-50 p-6">
-        <h3 className="font-black text-blue-900">🗺️ {t.tourism.explore}</h3>
-        <div className="mt-3 space-y-2 text-sm text-blue-800">
+      <div className="mt-12 rounded-2xl border border-brand-soft bg-brand-soft p-6">
+        <h3 className="font-black text-brand-deep">🗺️ {t.tourism.explore}</h3>
+        <div className="mt-3 space-y-2 text-sm text-brand-deep">
           <p>
             <span className="font-bold">🏙️ {t.tourism.mukdahan}:</span> {t.tourism.routeMk}
           </p>

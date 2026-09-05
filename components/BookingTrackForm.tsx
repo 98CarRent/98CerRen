@@ -26,11 +26,11 @@ export default function BookingTrackForm({ t }: { t: Dict }) {
         value={ref}
         onChange={(e) => setRef(e.target.value)}
         placeholder={t.booking.trackPlaceholder}
-        className="flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold uppercase tracking-wider outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold uppercase tracking-wider outline-none transition focus:border-brand focus:ring-2 focus:ring-brand-soft"
       />
       <button
         type="submit"
-        className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+        className="rounded-xl bg-brand px-6 py-3 text-sm font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
       >
         {t.booking.trackButton} →
       </button>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useI18n } from "@/components/LanguageProvider";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default function Navbar() {
   const { t, lang, setLang } = useI18n();
@@ -26,13 +27,13 @@ export default function Navbar() {
           <img
             src="/images/logo.svg"
             alt="98CarRent"
-            className="h-11 w-11 rounded-2xl shadow-lg shadow-blue-600/30"
+            className="h-11 w-11 rounded-2xl shadow-lg shadow-brand"
           />
           <span className="leading-tight">
             <span className="block text-lg font-extrabold tracking-tight text-slate-900">
               98CarRent
             </span>
-            <span className="hidden text-[11px] font-medium text-blue-700 sm:block">
+            <span className="hidden text-[11px] font-medium text-brand-strong sm:block">
               {t.siteSlogan}
             </span>
           </span>
@@ -43,7 +44,7 @@ export default function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
+              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-brand-soft hover:text-brand-strong"
             >
               {l.label}
             </Link>
@@ -51,16 +52,19 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="hidden lg:block">
+            <ThemeSwitcher title={t.nav.theme} />
+          </div>
           <button
             onClick={() => setLang(lang === "th" ? "en" : "th")}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-blue-400 hover:text-blue-700"
+            className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-brand hover:text-brand-strong"
             aria-label={t.nav.language}
           >
             {t.nav.language}
           </button>
           <Link
             href="/booking"
-            className="hidden rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-md shadow-blue-600/25 transition hover:bg-blue-700 sm:block"
+            className="hidden rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white shadow-md shadow-brand transition hover:bg-brand-strong sm:block"
           >
             {t.nav.booking}
           </Link>
@@ -90,15 +94,18 @@ export default function Navbar() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+                className="rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-brand-soft hover:text-brand-strong"
               >
                 {l.label}
               </Link>
             ))}
+            <div className="flex items-center justify-center gap-2 border-t border-slate-100 px-2 py-3">
+              <ThemeSwitcher />
+            </div>
             <Link
               href="/booking"
               onClick={() => setOpen(false)}
-              className="mt-1 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-bold text-white"
+              className="mt-1 rounded-lg bg-brand px-4 py-2.5 text-center text-sm font-bold text-white"
             >
               {t.nav.booking}
             </Link>

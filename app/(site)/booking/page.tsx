@@ -76,19 +76,19 @@ export default async function BookingPage({
               <h2 className="font-black">{t.booking.myBookingTitle}</h2>
               <ol className="mt-4 space-y-4 text-sm">
                 <li className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-400/20 font-black text-sky-300">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-20 font-black text-brand-pale">
                     1
                   </span>
                   <span className="text-slate-300">{t.booking.step1}</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-400/20 font-black text-sky-300">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-20 font-black text-brand-pale">
                     2
                   </span>
                   <span className="text-slate-300">{t.booking.step2}</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-400/20 font-black text-sky-300">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-20 font-black text-brand-pale">
                     3
                   </span>
                   <span className="text-slate-300">{t.booking.step3}</span>

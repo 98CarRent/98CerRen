@@ -24,7 +24,7 @@ export default async function EditCarPage(props: PageProps<"/admin/cars/[id]/edi
 
   return (
     <div>
-      <Link href="/admin/cars" className="text-sm font-bold text-blue-700 hover:underline">
+      <Link href="/admin/cars" className="text-sm font-bold text-brand-strong hover:underline">
         ← {t.admin.backToList}
       </Link>
       <h1 className="mt-2 text-2xl font-black text-slate-900">
@@ -45,9 +45,9 @@ export default async function EditCarPage(props: PageProps<"/admin/cars/[id]/edi
             type="file"
             name="image"
             accept="image/*"
-            className="flex-1 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
+            className="flex-1 text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-brand-strong"
           />
-          <button className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-blue-700">
+          <button className="rounded-lg bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-strong">
             {t.gallery.add} →
           </button>
         </form>

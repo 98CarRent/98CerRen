@@ -32,8 +32,8 @@ export async function createCar(formData: FormData) {
   const image = (formData.get("image") as File | null) || null;
   const imagePath = await saveUpload(image);
   db.prepare(
-    `INSERT INTO cars (brand, model, year, plate, seats, transmission, fuel, type, price_per_day, deposit, status, image, description_th, description_en)
-     VALUES (@brand, @model, @year, @plate, @seats, @transmission, @fuel, @type, @price, @deposit, @status, @image, @descth, @descen)`
+    `INSERT INTO cars (brand, model, year, plate, seats, transmission, fuel, type, price_per_day, price_week, price_month, deposit, status, image, description_th, description_en)
+     VALUES (@brand, @model, @year, @plate, @seats, @transmission, @fuel, @type, @price, @price_week, @price_month, @deposit, @status, @image, @descth, @descen)`
   ).run({
     brand: str(formData.get("brand")),
     model: str(formData.get("model")),
@@ -44,10 +44,12 @@ export async function createCar(formData: FormData) {
     fuel: str(formData.get("fuel")) || "diesel",
     type: str(formData.get("type")) === "with_driver" ? "with_driver" : "self",
     price: num(formData.get("price_per_day")) || 0,
+    price_week: num(formData.get("price_week")) || 0,
+    price_month: num(formData.get("price_month")) || 0,
     deposit: num(formData.get("deposit")) || 0,
     status: str(formData.get("status")) || "available",
     image: imagePath,
-    desth: str(formData.get("description_th")),
+    descth: str(formData.get("description_th")),
     descen: str(formData.get("description_en")),
   });
   revalidatePath("/admin/cars");
@@ -74,7 +76,8 @@ export async function updateCar(formData: FormData) {
   }
   db.prepare(
     `UPDATE cars SET brand=@brand, model=@model, year=@year, plate=@plate, seats=@seats,
-     transmission=@transmission, fuel=@fuel, type=@type, price_per_day=@price, deposit=@deposit,
+     transmission=@transmission, fuel=@fuel, type=@type, price_per_day=@price,
+     price_week=@price_week, price_month=@price_month, deposit=@deposit,
      status=@status, image=@image, description_th=@descth, description_en=@descen
      WHERE id=@id`
   ).run({
@@ -88,10 +91,12 @@ export async function updateCar(formData: FormData) {
     fuel: str(formData.get("fuel")) || "diesel",
     type: str(formData.get("type")) === "with_driver" ? "with_driver" : "self",
     price: num(formData.get("price_per_day")) || 0,
+    price_week: num(formData.get("price_week")) || 0,
+    price_month: num(formData.get("price_month")) || 0,
     deposit: num(formData.get("deposit")) || 0,
     status: str(formData.get("status")) || "available",
     image: imagePath,
-    desth: str(formData.get("description_th")),
+    descth: str(formData.get("description_th")),
     descen: str(formData.get("description_en")),
   });
   revalidatePath("/admin/cars");

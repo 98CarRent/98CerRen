@@ -5,7 +5,7 @@ import type { Dict } from "@/lib/lang";
 import type { Car } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand-soft";
 const labelCls = "mb-1.5 block text-sm font-bold text-slate-700";
 
 export default function CarForm({ car, t }: { car?: Car; t: Dict }) {
@@ -76,8 +76,16 @@ export default function CarForm({ car, t }: { car?: Car; t: Dict }) {
           </select>
         </div>
         <div>
-          <label className={labelCls}>ราคา/วัน *</label>
+          <label className={labelCls}>{t.car.priceDaily} *</label>
           <input name="price_per_day" required defaultValue={car?.price_per_day || ""} className={inputCls} inputMode="numeric" placeholder="1200" />
+        </div>
+        <div>
+          <label className={labelCls}>{t.car.priceWeekly}</label>
+          <input name="price_week" defaultValue={car?.price_week || ""} className={inputCls} inputMode="numeric" placeholder="7560" />
+        </div>
+        <div>
+          <label className={labelCls}>{t.car.priceMonthly}</label>
+          <input name="price_month" defaultValue={car?.price_month || ""} className={inputCls} inputMode="numeric" placeholder="28800" />
         </div>
         <div>
           <label className={labelCls}>{t.car.deposit}</label>
@@ -109,20 +117,20 @@ export default function CarForm({ car, t }: { car?: Car; t: Dict }) {
           type="file"
           name="image"
           accept="image/*"
-          className="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
+          className="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-brand-strong"
         />
       </div>
 
       <div className="flex flex-wrap gap-3 pt-2">
         <button
           type="submit"
-          className="rounded-xl bg-blue-600 px-8 py-3 font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+          className="rounded-xl bg-brand px-8 py-3 font-bold text-white shadow-lg shadow-brand transition hover:bg-brand-strong"
         >
           {t.admin.save} →
         </button>
         <button
           type="reset"
-          className="rounded-xl border border-slate-300 px-6 py-3 font-bold text-slate-700 transition hover:border-blue-400"
+          className="rounded-xl border border-slate-300 px-6 py-3 font-bold text-slate-700 transition hover:border-brand"
         >
           {t.admin.cancel}
         </button>

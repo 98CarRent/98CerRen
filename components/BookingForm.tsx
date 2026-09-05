@@ -8,7 +8,7 @@ import type { Dict } from "@/lib/lang";
 import type { Car } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand-soft";
 
 export default function BookingForm({
   cars,
@@ -222,28 +222,34 @@ export default function BookingForm({
       </div>
 
       {rentalType === "with_driver" && (
-        <p className="rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-700">
+        <p className="rounded-lg bg-brand-soft px-4 py-3 text-sm text-brand-strong">
           🧑‍✈️ {t.booking.withDriverNote}
         </p>
       )}
 
       {car && start && end && (
-        <div className="flex items-center justify-between rounded-xl bg-blue-50 px-5 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-brand-soft px-5 py-4">
           <div>
-            <p className="text-sm font-semibold text-blue-800">{t.booking.total}</p>
-            <p className="text-xs text-blue-600">
+            <p className="text-sm font-semibold text-brand-deep">{t.booking.total}</p>
+            <p className="text-xs text-brand">
               {days} {t.booking.days} × {car.price_per_day.toLocaleString()} {t.common.baht}
             </p>
           </div>
-          <p className="text-2xl font-black text-blue-700">
-            {total.toLocaleString()} <span className="text-sm">{t.common.baht}</span>
-          </p>
+          <div className="text-right">
+            <p className="text-2xl font-black text-brand-strong">
+              {total.toLocaleString()} <span className="text-sm">{t.common.baht}</span>
+            </p>
+            <p className="mt-1 text-xs font-medium text-slate-500">
+              ⏳ {t.car.priceWeekly} {car.price_week.toLocaleString()} · {t.car.priceMonthly}{" "}
+              {car.price_month.toLocaleString()} {t.common.baht}
+            </p>
+          </div>
         </div>
       )}
 
       <button
         type="submit"
-        className="w-full rounded-xl bg-blue-600 px-6 py-4 text-lg font-bold text-white shadow-xl shadow-blue-600/25 transition hover:bg-blue-700"
+        className="w-full rounded-xl bg-brand px-6 py-4 text-lg font-bold text-white shadow-xl shadow-brand transition hover:bg-brand-strong"
       >
         {t.booking.submit} →
       </button>

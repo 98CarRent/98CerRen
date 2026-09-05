@@ -29,7 +29,7 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <nav className="text-sm text-slate-500">
-        <Link href="/cars" className="hover:text-blue-700">
+        <Link href="/cars" className="hover:text-brand-strong">
           {t.nav.cars}
         </Link>
         <span className="mx-2">/</span>
@@ -75,18 +75,31 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
             }`}>
               {statusLabel}
             </span>
-            <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
+            <span className="rounded-full bg-brand-softer px-3 py-1 text-xs font-bold text-brand-strong">
               {car.type === "with_driver" ? t.car.with_driver : t.car.self}
             </span>
           </div>
 
           <h1 className="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">{name}</h1>
 
-          <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-4xl font-black text-blue-700">
-              {formatBaht(car.price_per_day)}
-            </span>
-            <span className="font-semibold text-slate-500">/ {t.car.pricePerDay}</span>
+          <div className="mt-4 rounded-2xl border border-brand-soft bg-brand-soft p-4">
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-black text-brand-strong">
+                {formatBaht(car.price_per_day)}
+              </span>
+              <span className="font-semibold text-slate-500">/ {t.car.priceDaily}</span>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2 text-sm">
+              <span className="rounded-lg bg-white px-3 py-2 font-bold text-slate-800 ring-1 ring-brand-soft">
+                {t.car.priceWeekly}{" "}
+                <span className="text-brand-strong">{formatBaht(car.price_week)}</span>
+              </span>
+              <span className="rounded-lg bg-white px-3 py-2 font-bold text-slate-800 ring-1 ring-brand-soft">
+                {t.car.priceMonthly}{" "}
+                <span className="text-brand-strong">{formatBaht(car.price_month)}</span>
+              </span>
+            </div>
+            <p className="mt-3 text-xs font-medium text-slate-500">💡 {t.car.priceNote}</p>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -115,13 +128,13 @@ export default async function CarDetailPage(props: PageProps<"/cars/[id]">) {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href={`/booking?car=${car.id}`}
-              className="flex-1 rounded-xl bg-blue-600 px-6 py-3.5 text-center text-lg font-bold text-white shadow-xl shadow-blue-600/25 transition hover:bg-blue-700"
+              className="flex-1 rounded-xl bg-brand px-6 py-3.5 text-center text-lg font-bold text-white shadow-xl shadow-brand transition hover:bg-brand-strong"
             >
               {t.car.book} →
             </Link>
             <Link
               href="/booking"
-              className="rounded-xl border border-slate-300 px-6 py-3.5 font-bold text-slate-700 transition hover:border-blue-400 hover:text-blue-700"
+              className="rounded-xl border border-slate-300 px-6 py-3.5 font-bold text-slate-700 transition hover:border-brand hover:text-brand-strong"
             >
               {t.booking.title}
             </Link>
